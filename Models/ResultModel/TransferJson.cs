@@ -38,7 +38,7 @@ namespace api.Models.ResultModel
         public decimal transferNetAmount { get; set; }
         public decimal FixedRate { get; set; }
         public int NumberPlots { get; set; }
-        public int CardDigits { get; set; }
+        public string CardDigits { get; set; }
         public ICollection<Portion> Portions { get; set; }
 
         public Task ExecuteResultAsync(ActionContext context)

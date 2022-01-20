@@ -23,7 +23,6 @@ namespace api.Models.EntityModel.Mappings
             builder.Property(a => a.TransferNetAmount)
                 .HasColumnType("decimal(18,2)");
 
-
             builder.Property(a => a.FixedRate)
                .HasColumnType("decimal(5,2)")
                 .IsRequired(true);

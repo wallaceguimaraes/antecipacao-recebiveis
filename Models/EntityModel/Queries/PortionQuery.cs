@@ -10,7 +10,8 @@ namespace api.Models.EntityModel.Queries
     {
           public static IQueryable<Portion> OrderById(this IQueryable<Portion> portions)
         {
-            return portions.OrderBy(portion => portion.PortionId).Include(portion => portion.Transfer);;
+            return portions.OrderBy(portion => portion.PortionId);
+            //.Include(portion => portion.Transfer)
         }
     }
 }
