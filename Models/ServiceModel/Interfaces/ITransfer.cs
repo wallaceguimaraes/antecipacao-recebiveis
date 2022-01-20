@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Models.ServiceModel.Interfaces
 {
-    public interface ITransferService
+    public interface ITransfer
     {
         Task<IActionResult> List();
     }

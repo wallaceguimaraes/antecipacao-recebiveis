@@ -9,9 +9,9 @@ using api.Models.ResultModel;
 using api.Models.EntityModel.Queries;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Models.ServiceModel.Services
+namespace api.Models.ServiceModel
 {
-    public class TransferService : ITransferService
+    public class Transfer : ITransfer
     {
 
        // Toda transação aprovada deve gerar parcelas com vencimento a cada 30 dias, 
@@ -21,7 +21,7 @@ namespace api.Models.ServiceModel.Services
         a partir do valor da transação, nesse caso 100 reais, subtraido a taxa fixa, 0,90, e dividido pelo número de parcelas */
         private readonly DataContext _context;
 
-        public TransferService(DataContext context)
+        public Transfer(DataContext context)
         {
             _context = context;
         }

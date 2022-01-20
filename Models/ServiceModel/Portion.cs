@@ -10,13 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using api.Models.ResultModel;
 
 
-namespace api.Models.ServiceModel.Services
+namespace api.Models.ServiceModel
 {
-    public class PortionService : IPortionService
+    public class Portion : IPortion
     {
         private readonly DataContext _context;
 
-        public PortionService(DataContext context)
+        public Portion(DataContext context)
         {
             _context = context;
         }

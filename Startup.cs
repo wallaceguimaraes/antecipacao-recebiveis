@@ -4,18 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using api.Models.ServiceModel.Interfaces;
-using api.Models.ServiceModel.Services;
-
-
+using api.Models.ServiceModel;
 
 namespace api
 {
@@ -36,10 +31,10 @@ namespace api
             );
 
 
-            services.AddScoped<ISituationService, SituationService>();
-            services.AddScoped<ITransferService, TransferService>();
-            services.AddScoped<IPortionService, PortionService>();
-            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ISituation, Situation>();
+            services.AddScoped<ITransfer, Transfer>();
+            services.AddScoped<IPortion, Portion>();
+            services.AddScoped<IPayment, Payment>();
 
             services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =
                                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);

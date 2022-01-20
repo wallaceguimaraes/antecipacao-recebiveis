@@ -10,13 +10,13 @@ using api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace api.Models.ServiceModel.Services
+namespace api.Models.ServiceModel
 {
-    public class PaymentService : IPaymentService
+    public class Payment : IPayment
     {
         private readonly DataContext _context;
 
-        public PaymentService(DataContext context)
+        public Payment(DataContext context)
         {
             _context = context;
         }

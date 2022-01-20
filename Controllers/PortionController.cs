@@ -12,8 +12,8 @@ namespace api.Controllers
     [Route("api/v2/portions")]
     public class PortionController : Controller
     {
-        private readonly IPortionService _portionService;
-        public PortionController(IPortionService portionService)
+        private readonly IPortion _portionService;
+        public PortionController(IPortion portionService)
         {
             _portionService = portionService;
         }

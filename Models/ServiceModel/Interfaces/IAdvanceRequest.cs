@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Models.ServiceModel.Interfaces
 {
-    public interface IPortionService
+    public interface IAdvanceRequest
     {
-        Task<IActionResult> List();
-
+        Task<IActionResult> ConsultAvailableTransactions();
     }
 }

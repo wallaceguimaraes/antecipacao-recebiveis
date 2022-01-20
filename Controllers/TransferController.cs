@@ -12,8 +12,8 @@ namespace api.Controllers
     [Route("api/v2/transfer")]
     public class TransferController : Controller
     {
-       private readonly ITransferService _transferService;
-        public TransferController(ITransferService transferService)
+       private readonly ITransfer _transferService;
+        public TransferController(ITransfer transferService)
         {
             _transferService = transferService;
         }

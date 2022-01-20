@@ -13,8 +13,8 @@ namespace api.Controllers
     [Route("api/v2/payment")]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
-        public PaymentController(IPaymentService paymentService)
+        private readonly IPayment _paymentService;
+        public PaymentController(IPayment paymentService)
         {
             _paymentService = paymentService;
         }

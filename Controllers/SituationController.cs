@@ -17,8 +17,8 @@ namespace api.Controllers
     [Route("api/v2/situations")]
     public class SituationController : Controller
     {
-        private readonly ISituationService _situationService;
-        public SituationController(ISituationService situationService)
+        private readonly ISituation _situationService;
+        public SituationController(ISituation situationService)
         {
             _situationService = situationService;
         }

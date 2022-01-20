@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace api.Models.ServiceModel.Interfaces
 {
-    public interface ISituationService
+    public interface IPortion
     {
         Task<IActionResult> List();
 

@@ -11,13 +11,13 @@ using api.Models.ResultModel;
 
 
 
-namespace api.Models.ServiceModel.Services
+namespace api.Models.ServiceModel
 {
-    public class SituationService : ISituationService
+    public class Situation : ISituation
     {
         private readonly DataContext _context;
 
-        public SituationService(DataContext context)
+        public Situation(DataContext context)
         {
             _context = context;
         }

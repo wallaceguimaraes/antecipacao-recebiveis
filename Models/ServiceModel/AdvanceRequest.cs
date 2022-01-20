@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace api.Models.ServiceModel.Services
+namespace api.Models.ServiceModel
 {
     public class AdvanceRequest
     {
