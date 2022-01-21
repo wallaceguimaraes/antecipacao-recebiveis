@@ -9,7 +9,7 @@ namespace api.Models.Validations
     {
         public InvalidCard()
         {
-            ErrorMessage = "Cartão de crédito inválido!";
+            ErrorMessage = "Invalid credit card!";
         }
         
     }

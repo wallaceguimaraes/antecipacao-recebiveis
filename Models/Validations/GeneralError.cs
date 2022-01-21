@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace api.Models.Validations
 {
-    public sealed class FailedTransfer : FailedTransaction
+    public sealed class GeneralError: Error
     {
-        public FailedTransfer()
+        public GeneralError()
         {
-            ErrorMessage = "The transaction has been disapproved!";
+            ErrorMessage = "An unexpected error occurred!";
         }
         
         

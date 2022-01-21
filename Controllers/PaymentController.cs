@@ -1,11 +1,7 @@
-using System;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using api.Models.ServiceModel.Interfaces;
-using System.Threading.Tasks;
 using api.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace api.Controllers
 {
@@ -29,6 +25,5 @@ namespace api.Controllers
 
             return response;
         }
-
     }
 }

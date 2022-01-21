@@ -1,16 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using api.Models.EntityModel;
-using api.Models.ResultModel;
 using api.Models.ServiceModel.Interfaces;
-
-
-using api.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace api.Controllers
 {

@@ -12,5 +12,8 @@ namespace api.Models.ServiceModel.Interfaces
         Task<IActionResult> List();
 
         Task<IActionResult> SaveTransfer(PaymentModel vModel, string status);
+    
+        Task<IActionResult> ConsultTransaction(int id);
+
     }
 }

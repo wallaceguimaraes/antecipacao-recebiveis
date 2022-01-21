@@ -10,7 +10,7 @@ namespace api.Models.Validations
     {
         public AmountRequired()
         {
-            ErrorMessage = "Campo Obrigatório!";
+            ErrorMessage = "Required field!";
 
         }
     }

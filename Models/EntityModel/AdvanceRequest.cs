@@ -1,9 +1,6 @@
+using api.Models.EntityModel.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.Models.EntityModel.Enums;
-
 
 namespace api.Models.EntityModel.AdvanceRequest
 {
@@ -22,14 +19,6 @@ namespace api.Models.EntityModel.AdvanceRequest
         public decimal AmountRequestedAdvance { get; set; }
         public decimal AnticipatedValue { get; set; }
         public ICollection<Transfer> RequestedTransfers { get; set; }
-
-        public void FinishAnalysis(){
-            if(AnalysisEndDate == null)
-                AnalysisEndDate = DateTime.Now;
-            else
-                throw new Exception($"Solicitação já concluída em: {AnalysisEndDate?.ToString("dd/MM/'yyyy hh:mm")}");
-        }
-
 
     }
 }

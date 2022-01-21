@@ -16,12 +16,6 @@ namespace api.Models.ServiceModel
 {
     public class TransferService : ITransfer
     {
-
-        // Toda transação aprovada deve gerar parcelas com vencimento a cada 30 dias, 
-        // exemplo: Se a transação for de R$100,00 em 2x (duas parcelas)
-        /* 
-                Nesse exemplo, seriam geradas duas parcelas de R$49,55 cada, sendo esse valor obtido 
-                a partir do valor da transação, nesse caso 100 reais, subtraido a taxa fixa, 0,90, e dividido pelo número de parcelas */
         private readonly DataContext _context;
         private readonly IPortion _portionService;
 
@@ -72,21 +66,35 @@ namespace api.Models.ServiceModel
                 transfer.TransferNetAmount = transfer.GrossTransferAmount - transfer.FixedRate;
             }
 
-
             try
             {
                 _context.Add(transfer);
 
                 await _context.SaveChangesAsync();
 
-                if(status == "APROVADA"){
+                if (status == "APROVADA")
+                {
                     await _portionService.SavePortion(transfer);
                 }
-                
 
-                 //await _context.Transfers.   
                 return new TransferJson(transfer);
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
+
+        public async Task<IActionResult> ConsultTransaction(int id)
+        {
+            try
+            {
+                var transfer = _context.Transfers.WhereId(id);
+
+                if (transfer == null) return null;
+
+                return new TransferListJson(transfer);
             }
             catch (System.Exception ex)
             {

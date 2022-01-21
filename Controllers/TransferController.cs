@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Models.ServiceModel.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace api.Controllers
 {
     [Route("api/v2/transfer")]
     public class TransferController : Controller
     {
-       private readonly ITransfer _transferService;
+        private readonly ITransfer _transferService;
         public TransferController(ITransfer transferService)
         {
             _transferService = transferService;
@@ -22,19 +17,23 @@ namespace api.Controllers
         [Route("list")]
         public async Task<IActionResult> List()
         {
-       /*      try
-            { */
-                var transfers = await _transferService.List();
+            var transfers = await _transferService.List();
 
-                if (transfers == null) return null;
+            if (transfers == null) return null;
 
-                return transfers;
+            return transfers;
+        }
 
-          /*   }
-            catch (System.Exception ex)
-            {
-                throw new Exception(ex.Message);
-            } */
+        [HttpGet]
+        [Route("consult-transaction/{id:int}")]
+        public async Task<IActionResult> ConsultTransaction(int id)
+        {
+
+            var transfers = await _transferService.ConsultTransaction(id);
+
+            if (transfers == null) return null;
+
+            return transfers;
         }
     }
 }

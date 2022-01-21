@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using api.Models.EntityModel.Mappings;
 using api.Models.EntityModel;
+using api.Models.EntityModel.Mappings;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace api.Infrastructure.Context
 {
