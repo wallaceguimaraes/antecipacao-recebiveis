@@ -55,7 +55,7 @@ namespace api.Models.ServiceModel
             string lastDigits = vModel.CreditCard.Substring(12, 4);
             transfer.CardDigits = lastDigits;
             transfer.GrossTransferAmount = vModel.ValueTotal;
-            transfer.InstallmentAmount = vModel.Installments;
+            transfer.InstallmentAmount = vModel.InstallmentsAmount;
 
             if (status == "RECUSADA")
             {

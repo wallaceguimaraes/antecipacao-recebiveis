@@ -17,7 +17,7 @@ namespace api.Models.ViewModels
 
         [Display(Name ="installmentsAmount"), AmountRequired]
         [Required]
-        public int Installments { get; set; }
+        public int InstallmentsAmount { get; set; }
 
     }
 }
