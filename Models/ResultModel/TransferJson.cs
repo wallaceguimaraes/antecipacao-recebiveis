@@ -10,7 +10,7 @@ namespace api.Models.ResultModel
 {
     public class TransferJson : IActionResult
     {
-         public TransferJson() { }
+        public TransferJson() { }
 
         public TransferJson(Transfer transfer)
         {
@@ -23,7 +23,7 @@ namespace api.Models.ResultModel
             GrossTransferAmount = transfer.GrossTransferAmount;
             transferNetAmount = transfer.TransferNetAmount;
             FixedRate = transfer.FixedRate;
-            NumberPlots = transfer.NumberPlots;
+            InstallmentAmount = transfer.InstallmentAmount;
             CardDigits = transfer.CardDigits;
             Portions = transfer.Portions;
         }
@@ -37,7 +37,7 @@ namespace api.Models.ResultModel
         public decimal GrossTransferAmount { get; set; }
         public decimal transferNetAmount { get; set; }
         public decimal FixedRate { get; set; }
-        public int NumberPlots { get; set; }
+        public int InstallmentAmount { get; set; }
         public string CardDigits { get; set; }
         public ICollection<Portion> Portions { get; set; }
 

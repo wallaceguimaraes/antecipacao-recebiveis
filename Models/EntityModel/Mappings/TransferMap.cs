@@ -28,7 +28,8 @@ namespace api.Models.EntityModel.Mappings
                 .IsRequired(true);
 
             builder.Property(a => a.CardDigits)
-                .HasPrecision(4);
+                .HasColumnType("varchar(4)");
+
         }
     }
 }

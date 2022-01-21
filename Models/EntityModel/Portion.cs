@@ -11,7 +11,6 @@ namespace api.Models.EntityModel
         public Portion()
         {
             AnticipatedValue = null;
-            ExpectedDateReceipt = null;
             TransferDate = null;
 
         }
@@ -20,9 +19,9 @@ namespace api.Models.EntityModel
         public Transfer Transfer { get; set; }
         public decimal GrossValue {get; set;}
         public decimal NetValue {get; set;}
-        public int PlotNumber {get; set;}
+        public int InstallmentNumber {get; set;}
         public decimal? AnticipatedValue {get; set;}
-        public DateTime? ExpectedDateReceipt {get; set;}
+        public DateTime ExpectedDateReceipt {get; set;}
         public DateTime? TransferDate {get; set;}
 
 

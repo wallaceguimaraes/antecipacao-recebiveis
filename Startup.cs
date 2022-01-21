@@ -32,8 +32,8 @@ namespace api
 
 
             services.AddScoped<ISituation, Situation>();
-            services.AddScoped<ITransfer, Transfer>();
-            services.AddScoped<IPortion, Portion>();
+            services.AddScoped<ITransfer, TransferService>();
+            services.AddScoped<IPortion, PortionService>();
             services.AddScoped<IPayment, Payment>();
 
             services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =

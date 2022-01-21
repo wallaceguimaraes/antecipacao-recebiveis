@@ -13,5 +13,10 @@ namespace api.Models.EntityModel.Queries
             return portions.OrderBy(portion => portion.PortionId);
             //.Include(portion => portion.Transfer)
         }
+           public static IQueryable<Portion> GetByTransferId(this IQueryable<Portion> portions, int? transferId)
+        {
+            return portions.Where(portion => portion.TransferId == transferId);
+            //.Include(portion => portion.Transfer)
+        }
     }
 }

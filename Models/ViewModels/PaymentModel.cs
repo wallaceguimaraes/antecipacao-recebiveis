@@ -15,17 +15,9 @@ namespace api.Models.ViewModels
         [Required]
         public decimal ValueTotal { get; set; }
 
-        [Display(Name ="installments"), AmountRequired]
+        [Display(Name ="installmentsAmount"), AmountRequired]
         [Required]
-        public decimal Installments { get; set; }
+        public int Installments { get; set; }
 
-
-        /*     public Model MapTo(Model model)
-            {
-                model.BrandId = BrandId.Value;
-                model.Name = Name;
-
-                return model;
-            } */
     }
 }

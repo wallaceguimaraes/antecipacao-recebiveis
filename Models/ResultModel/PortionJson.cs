@@ -18,7 +18,7 @@ namespace api.Models.ResultModel
             Transfer = portion.Transfer;
             GrossValue = portion.GrossValue;
             NetValue = portion.NetValue;
-            PlotNumber = portion.PlotNumber;
+            installmentNumber = portion.InstallmentNumber;
             AnticipatedValue = portion.AnticipatedValue;
             ExpectedDateReceipt = portion.ExpectedDateReceipt;
             TransferDate = portion.TransferDate;
@@ -29,7 +29,7 @@ namespace api.Models.ResultModel
         public Transfer Transfer { get; set; }
         public decimal GrossValue { get; set; }
         public decimal NetValue { get; set; }
-        public int PlotNumber { get; set; }
+        public int installmentNumber { get; set; }
         public decimal? AnticipatedValue { get; set; }
         public DateTime? ExpectedDateReceipt { get; set; }
         public DateTime? TransferDate { get; set; }

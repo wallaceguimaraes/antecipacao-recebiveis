@@ -8,6 +8,15 @@ namespace api.Models.ServiceModel
     public class AdvanceRequest
     {
         /*
+        TABELA PORTION -> AnticipatedValue
+        Valor antecipado (Esse campo só deve ser preenchido se a transação for aprovada pela análise 
+        do financeiro, na solicitação de antecipação);
+
+        Data em que a parcela foi repassada (Esse campo só deve ser preenchido se a transação for 
+        aprovada pela análise do financeiro, na solicitação de antecipação).
+
+
+
         SOLICITAÇÕES DE ANTECIPAÇÃO SÃO DOCUMENTOS EMITIDOS PELO LOJISTA/VENDEDOR ATRAVÉS DO
         NOSSO SERVIÇO DE REPASSE ANTECIPADO DE  VALORES. A antecipação de uma transação tem um 
         CUSTO de 3.8% APLICADO em CADA PARCELA da TRANSAÇÃO, se APROVADA pela análise do financeiro, 

@@ -17,10 +17,12 @@ namespace api.Models.ServiceModel
     public class Payment : IPayment
     {
         private readonly DataContext _context;
+        private readonly ITransfer _transferService;
 
-        public Payment(DataContext context)
+        public Payment(DataContext context, ITransfer transferService)
         {
             _context = context;
+            _transferService = transferService;
         }
 
         public async Task<IActionResult> MakePayment(PaymentModel vModel)
@@ -41,49 +43,16 @@ namespace api.Models.ServiceModel
             */
             if (vModel.CreditCard.Substring(0, 4) == "5999")
             {
-                //TRANSAÇÃO REPROVADA
-                
-                //DisapprovalDate
-                //ConfirmationAcquirer -> RECUSADA
-                //Early -> 0
-                //GrossTransferAmount -> Valor Total Bruto
-                //TransferNetAmount -> Sem subtração da taxa
-                //NumberPlots -> numero parcelas
-                //CardDigits -> Ultimo quatro digitos
-                
-                //SALVAR EM BANCO TABELA (TRAMSFER)
+                await _transferService.SaveTransfer(vModel, "RECUSADA");
 
-                return new InvalidCard();
+                return new FailedTransfer();
             }
+            
+            //3° - GERAR TRANSAÇÃO APROVADA E SUAS PARCELAS
+            await _transferService.SaveTransfer(vModel, "APROVADA");
 
-            /*
-            * 3° - GERAR TRANSAÇÃO APROVADA
-            *   
-                //ApprovalDate
-                //ConfirmationAcquirer -> APROVADA
-                //Early -> 1
-                //GrossTransferAmount -> Valor Total Bruto
-                //TransferNetAmount -> COm subtração da taxa fixa
-                //NumberPlots -> numero parcelas
-                //CardDigits -> Ultimo quatro digitos
-            *
-            */
-
-            /*
-            GERAR PARCELAS (Portion)
-
-            4° - Toda transação aprovada deve gerar parcelas com vencimento a cada 30 dias, 
-            exemplo: Se a transação for de R$100,00 em 2x (duas parcelas), deve ser criado o 
-            registro de transação (entidade FORTE), conforme os critérios acima, e uma lista de 
-            parcelas associadas a essa transação (entidade FRACA). 
-
-            CALCULAR QUANTIDADE DE PARCELAS POR 30 PARA GERAR VENCIMENTO DE CADA PARCELA
-            EX: PARCELA 1 VENCE COM 30 DIAS, POIS 1 X 30 = 30
-                PARCELA 2 VENCE COM 60 DIAS, POIS 2 X 30 = 60
-                PARCELA 3 VENCE COM 90 DIAS, POIS 3 X 30 = 90   
-            */
-            DateTime today = DateTime.Now;
-            DateTime answer = today.AddDays(30);
+          
+       
 
             /*    
 
