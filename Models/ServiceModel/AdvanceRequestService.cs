@@ -19,17 +19,19 @@ namespace api.Models.ServiceModel
         private readonly DataContext _context;
         private readonly IPortion _portionService;
         private readonly IRequestedAdvance _requestedAdvanceService;
-
         private readonly ITransfer _transferService;
-
+        private readonly IRequestSituation _requestSituation;
 
         public AdvanceRequestService(DataContext context, IPortion portionService,
-                                    IRequestedAdvance requestedAdvanceService, ITransfer transferService)
+                                    IRequestedAdvance requestedAdvanceService, 
+                                    ITransfer transferService,
+                                    IRequestSituation requestSituation)
         {
             _context = context;
             _portionService = portionService;
             _requestedAdvanceService = requestedAdvanceService;
             _transferService = transferService;
+            _requestSituation = requestSituation;
 
         }
 
@@ -68,17 +70,12 @@ namespace api.Models.ServiceModel
                     return new PreviouslyRequestedTransactionError(transfer.TransferId);
                 }
             }
-
             decimal netValue = 0;
             AdvanceRequest advanceRequest = new AdvanceRequest();
 
             foreach (var transfer in vModel.Transfers)
             {
-                //Buscar todas as transações, e somar seu valor liquido 
-                //Transfer transaction = await _transferService.ConsultTransaction(transfer.TransferId);
-                //Soma do valor líquido das transações solicitadas
                 netValue = netValue + transfer.TransferNetAmount;
-
             }
 
             advanceRequest.AmountRequestedAdvance = netValue;
@@ -86,6 +83,9 @@ namespace api.Models.ServiceModel
             _context.Add(advanceRequest);
 
             await _context.SaveChangesAsync();
+            await _requestedAdvanceService.SaveRequestedTransaction(advanceRequest, vModel);            
+            //SItuationId => 1 PENDENTE
+            await _requestSituation.SaveSituation(advanceRequest.AdvanceRequestId, 1);
 
             return new AdvanceRequestJson(advanceRequest);
 

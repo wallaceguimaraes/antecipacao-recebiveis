@@ -7,6 +7,7 @@ using api.Models.EntityModel;
 using api.Models.EntityModel.Queries;
 using api.Models.ResultModel;
 using api.Models.ServiceModel.Interfaces;
+using api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Models.ServiceModel
@@ -21,18 +22,36 @@ namespace api.Models.ServiceModel
         }
 
 
+        public async Task<IActionResult> SaveRequestedTransaction(AdvanceRequest advanceRequest, AdvanceRequestModel vModel)
+        {
+            foreach (var transfer in vModel.Transfers)
+            {
+                RequestedAdvance requestedAdvance = new RequestedAdvance();
+                requestedAdvance.AdvanceRequestId = advanceRequest.AdvanceRequestId;
+                requestedAdvance.TransferId = transfer.TransferId;
+
+                _context.Add(requestedAdvance);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return null;
+        }
+
+
         public async Task<IActionResult> getRequestedAdvance(int transferId)
         {
             var requestedAdvances = _context.RequestedAdvances.searchByTransferId(transferId).FirstOrDefault();
-            if (requestedAdvances == null){
+            if (requestedAdvances == null)
+            {
                 return null;
-            } 
+            }
 
             var requested = _context.RequestedAdvances.searchByTransferId(transferId);
 
             return new RequestedAdvanceListJson(requested);
         }
- 
+
 
     }
 }
