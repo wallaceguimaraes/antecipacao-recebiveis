@@ -92,6 +92,22 @@ namespace api.Models.ServiceModel
 
         }
 
+        public Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        /*       public async Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
+              {
+
+                  if(vModel.Status == "disapprove"){
+
+                  }
+
+
+                  return null;
+              } */
+
         /*       public async Task<IActionResult> StartAnticipationService(AdvanceRequestModel vModel){
 
 
@@ -138,11 +154,11 @@ namespace api.Models.ServiceModel
       5° Endpoint -> Consultar histórico de antecipações com filtro por status (pendente, em análise, finalizada).
 
       */
-/*
- EM ANÁLISE: A equipe financeira iniciou a análise da antecipação, podendo aprovar ou reprovar UMA ou MAIS 
-      TRANSAÇÕES contidas na SOLICITAÇÃO;
-*/
-        
+        /*
+         EM ANÁLISE: A equipe financeira iniciou a análise da antecipação, podendo aprovar ou reprovar UMA ou MAIS 
+              TRANSAÇÕES contidas na SOLICITAÇÃO;
+        */
+
 
 
         public async Task<IActionResult> ConsultAvailableTransactions()
@@ -156,7 +172,6 @@ namespace api.Models.ServiceModel
 
         public async Task<RequestSituation> StartRequestService(StartRequestServiceModel vModel)
         {
-
                var requestSituation = await _requestSituationService.StartRequestService(vModel.AdvanceRequest.AdvanceRequestId);
 
                 if(requestSituation == null){
@@ -164,10 +179,8 @@ namespace api.Models.ServiceModel
                     return null;
                 }
 
-                AdvanceRequest advanceRequest =_context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault();
-
+                AdvanceRequest advanceRequest =_context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault()
                 advanceRequest.StartDateAnalysis = DateTime.Now;
-
                 _context.Update(advanceRequest);
                 await _context.SaveChangesAsync();
 

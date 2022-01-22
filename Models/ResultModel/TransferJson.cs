@@ -32,7 +32,7 @@ namespace api.Models.ResultModel
         public DateTime DatetransferMade { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public DateTime? DisapprovalDate { get; set; }
-        public bool Early { get; set; }
+        public bool? Early { get; set; }
         public string ConfirmationAcquirer { get; set; }
         public decimal GrossTransferAmount { get; set; }
         public decimal transferNetAmount { get; set; }

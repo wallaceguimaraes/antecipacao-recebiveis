@@ -9,12 +9,13 @@ namespace api.Models.EntityModel
         {
             DateTransferMade = DateTime.Now;
             FixedRate = 0.90m;
+            Early = null;
         }
         public int TransferId { get; set; }
         public DateTime DateTransferMade { get; set; }
         public DateTime? ApprovalDate { get; set; }
         public DateTime? DisapprovalDate { get; set; }
-        public bool Early { get; set; }
+        public bool? Early { get; set; }
         public string ConfirmationAcquirer { get; set; }
         public decimal GrossTransferAmount { get; set; }
         public decimal TransferNetAmount { get; set; }
