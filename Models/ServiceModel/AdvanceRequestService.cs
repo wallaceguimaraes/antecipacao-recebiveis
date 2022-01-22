@@ -92,49 +92,41 @@ namespace api.Models.ServiceModel
 
         }
 
-               public async Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
-              {
+        public async Task<RequestedAdvance[]> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
+        {
 
-                  if(vModel.Status == "disapprove"){
+            if (vModel.Status == "disapprove")
+            {
 
-                      foreach(var transfer in vModel.Transfers){
-
-                          await _transferService.DisapproveTransaction(transfer.TransferId);
-
-                      }
-
-
-                      Task<ICollection<RequestedAdvance>> requestedAdvances =_requestedAdvanceService.PickUpUnfinishedTransactions(vModel.AdvanceRequestId);
+                foreach (var transfer in vModel.Transfers)
+                {
+                    await _transferService.DisapproveTransaction(transfer.TransferId);
+                }
 
 
-                      if(requestedAdvances == null){
-                          return null;
-                      }  
-                      //var transfers =  _c.PickUpUnfinishedTransactions().ToList();
+            }
+            else if (vModel.Status == "approve")
+            {
+                foreach (var transfer in vModel.Transfers)
+                {
+                    await _transferService.ApproveTransaction(transfer.TransferId);
+                    await _portionService.UpdatePortion(transfer.TransferId, transfer.TransferNetAmount);
+                }
 
-                      //Verificar se todas as transacoes foram finalizadas
-                      /// <summary>
-                      ///  Canso nao,
-                      /// </summary>
-                      /// 
-                      /// CASO a analise seja finalzada, atualizar Advance Request campo Anailsys Result
-                      ///  Aprovado, AprovadoParcialmente, Reprovado
-  
-                  } 
+                
+
+            }
+
+            //Verificar se AdvanceRequest Teve todas suas transferencias finalizadas Early diferente de null
+            
 
 
-                  return null;
-              } 
+            return null;
+        }
 
 
         /*
       FLUXO DO PROCESSO
-
-      5° - O trâmite de uma solicitação de antecipação progride através das seguintes etapas:
-
-      Aguardando análise (PENDENTE): O lojista solicitou antecipação, mas ainda não foi INICIADO a análise pela equipe 
-      financeira da Pagcerto;  V
-
      
 
       FINALIZADA: Quando a análise da solicitação é encerrada, a antecipação pode assumir um dos seguintes resultados: 
@@ -185,19 +177,22 @@ namespace api.Models.ServiceModel
 
         public async Task<RequestSituation> StartRequestService(StartRequestServiceModel vModel)
         {
-               var requestSituation = await _requestSituationService.StartRequestService(vModel.AdvanceRequest.AdvanceRequestId);
+            var requestSituation = await _requestSituationService.StartRequestService(vModel.AdvanceRequest.AdvanceRequestId);
 
-                if(requestSituation == null){
+            if (requestSituation == null)
+            {
 
-                    return null;
-                }
+                return null;
+            }
 
-                AdvanceRequest advanceRequest =_context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault();
-                advanceRequest.StartDateAnalysis = DateTime.Now;
-                _context.Update(advanceRequest);
-                await _context.SaveChangesAsync();
+            AdvanceRequest advanceRequest = _context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault();
+            advanceRequest.StartDateAnalysis = DateTime.Now;
+            _context.Update(advanceRequest);
+            await _context.SaveChangesAsync();
 
-               return requestSituation;
+            return requestSituation;
         }
+
+
     }
 }

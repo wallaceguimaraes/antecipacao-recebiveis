@@ -44,7 +44,7 @@ namespace api.Controllers
 
         [HttpPut]
         [Route("approve-disapprove")]
-        public async Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
+        public async Task<RequestedAdvance[]> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
         {
             return await _advanceRequestService.ApproveOrDisapprove(vModel);
         }

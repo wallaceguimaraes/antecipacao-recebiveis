@@ -14,6 +14,9 @@ namespace api.Models.EntityModel.Mappings
             builder.Property(a => a.ConfirmationAcquirer)
                 .HasColumnType("varchar(8)");
 
+            builder.Property(a => a.Early)
+                .HasColumnType("varchar(1)");
+
             builder.Property(a => a.GrossTransferAmount)
                 .HasColumnType("decimal(18,2)");
 

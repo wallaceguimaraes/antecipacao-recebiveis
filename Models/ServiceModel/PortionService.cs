@@ -21,6 +21,23 @@ namespace api.Models.ServiceModel
             _context = context;
         }
 
+        public async Task<IActionResult> EndDate(int transferId)
+        {
+            ICollection<Portion> portions = _context.Portions.GetByTransferId(transferId).ToList();
+            
+            foreach(var portion in portions){
+
+                 Portion portion1 = new Portion();
+                 portion.TransferDate = DateTime.Now;
+                _context.Update(portion);
+
+                await _context.SaveChangesAsync();
+                
+            }
+            return null;
+
+        }
+
         public async Task<IActionResult> List()
         {
             try
@@ -57,7 +74,7 @@ namespace api.Models.ServiceModel
             //DateTime today = DateTime.Now;
 
             decimal grossValue = transfer.GrossTransferAmount / transfer.InstallmentAmount;
-            decimal netValue = transfer.TransferNetAmount / transfer.InstallmentAmount;
+            decimal netValue = (transfer.TransferNetAmount - transfer.FixedRate ) / transfer.InstallmentAmount;
 
             for (int installmentNumber = 1; installmentNumber <= transfer.InstallmentAmount;installmentNumber ++)
             {
@@ -87,5 +104,27 @@ namespace api.Models.ServiceModel
             return new PortionListJson(portions);
 
         }
+
+        public async Task<IActionResult> UpdatePortion(int transferId, decimal netValue )
+        {
+           
+            ICollection<Portion> portions = _context.Portions.GetByTransferId(transferId).ToList();
+
+            
+            foreach(var portion in portions){
+                 
+                 decimal rate =portion.NetValue * 0.38m;
+                 portion.AnticipatedValue = portion.NetValue - rate;
+
+                _context.Update(portion);
+
+                await _context.SaveChangesAsync();
+            }
+
+            return null;
+        }
+
+
+        
     }
 }

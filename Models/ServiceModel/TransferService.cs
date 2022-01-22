@@ -55,15 +55,15 @@ namespace api.Models.ServiceModel
             {
                 transfer.ConfirmationAcquirer = status;
                 transfer.DisapprovalDate = DateTime.Now;
-                transfer.Early = false;
+                transfer.Early = null;
                 transfer.TransferNetAmount = vModel.ValueTotal;
             }
             else
             {
                 transfer.ConfirmationAcquirer = status;
                 transfer.ApprovalDate = DateTime.Now;
-                transfer.Early = false;
-                transfer.TransferNetAmount = transfer.GrossTransferAmount - transfer.FixedRate;
+                transfer.Early = null;
+                transfer.TransferNetAmount = (transfer.GrossTransferAmount - transfer.FixedRate);
             }
 
             try
@@ -107,7 +107,30 @@ namespace api.Models.ServiceModel
             //Pesquisar transacao
             Transfer transfer = _context.Transfers.WhereId(transferId).FirstOrDefault();
 
-            transfer.Early = false;
+            transfer.Early = "N";
+
+            try
+            {
+                _context.Update(transfer);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+            }
+            var transferJson = _context.Transfers.WhereId(transferId);
+
+            return new TransferJson(transfer);
+
+        }
+
+
+        public async Task<IActionResult> ApproveTransaction(int transferId)
+        {
+            Transfer transfer = _context.Transfers.WhereId(transferId).FirstOrDefault();
+
+            transfer.Early = "S";
 
             try
             {

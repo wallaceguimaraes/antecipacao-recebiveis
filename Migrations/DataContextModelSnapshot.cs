@@ -190,8 +190,8 @@ namespace api.Migrations
                     b.Property<DateTime?>("DisapprovalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Early")
-                        .HasColumnType("bit");
+                    b.Property<string>("Early")
+                        .HasColumnType("varchar(1)");
 
                     b.Property<decimal>("FixedRate")
                         .HasColumnType("decimal(5,2)");

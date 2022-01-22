@@ -53,7 +53,7 @@ namespace api.Migrations
                     DateTransferMade = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ApprovalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DisapprovalDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Early = table.Column<bool>(type: "bit", nullable: true),
+                    Early = table.Column<string>(type: "varchar(1)", nullable: true),
                     ConfirmationAcquirer = table.Column<string>(type: "varchar(8)", nullable: true),
                     GrossTransferAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TransferNetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),

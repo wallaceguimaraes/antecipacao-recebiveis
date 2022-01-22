@@ -11,5 +11,10 @@ namespace api.Models.ServiceModel.Interfaces
     {
         Task<IActionResult> List();
         Task<IActionResult> SavePortion(Transfer transfer);
+        Task<IActionResult> UpdatePortion(int transferId, decimal netValue);
+
+        Task<IActionResult> EndDate(int transferId);
+
+
     }
 }

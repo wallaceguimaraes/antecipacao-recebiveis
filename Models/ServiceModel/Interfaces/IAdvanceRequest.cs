@@ -14,7 +14,7 @@ namespace api.Models.ServiceModel.Interfaces
         Task<IActionResult> ConsultAvailableTransactions();
         Task<IActionResult> AdvanceRequest(AdvanceRequestModel vModel);
         Task<RequestSituation> StartRequestService(StartRequestServiceModel vModel);
-        Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel);
+        Task<RequestedAdvance[]> ApproveOrDisapprove(ApproveOrDisapproveModel vModel);
 
     }
 }
