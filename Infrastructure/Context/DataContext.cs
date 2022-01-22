@@ -15,6 +15,8 @@ namespace api.Infrastructure.Context
         public DbSet<AdvanceRequest> AdvanceRequests { get; set; }
         public DbSet<RequestedAdvance> RequestedAdvances { get; set; }
 
+        public DbSet<RequestSituation> RequestSituations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(Schema);
@@ -30,6 +32,8 @@ namespace api.Infrastructure.Context
             modelBuilder.ApplyConfiguration(new PortionMap());
             modelBuilder.ApplyConfiguration(new AdvanceRequestMap());
             modelBuilder.ApplyConfiguration(new RequestedAdvanceMap());
+            modelBuilder.ApplyConfiguration(new RequestSituationMap());
+
         }
     }
 

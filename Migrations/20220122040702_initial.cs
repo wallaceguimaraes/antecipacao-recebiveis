@@ -18,11 +18,11 @@ namespace api.Migrations
                     AdvanceRequestId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartDateAnalysis = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDateAnalysis = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AnalysisEndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AnalysisResult = table.Column<int>(type: "int", nullable: false),
+                    AnalysisResult = table.Column<int>(type: "int", nullable: true),
                     AmountRequestedAdvance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    AnticipatedValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    AnticipatedValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,6 +90,36 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RequestSituations",
+                schema: "Pagcerto",
+                columns: table => new
+                {
+                    RequestSituationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RequestId = table.Column<int>(type: "int", nullable: false),
+                    AdvanceRequestId = table.Column<int>(type: "int", nullable: false),
+                    SituationId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestSituations", x => x.RequestSituationId);
+                    table.ForeignKey(
+                        name: "FK_RequestSituations_AdvanceRequest_AdvanceRequestId",
+                        column: x => x.AdvanceRequestId,
+                        principalSchema: "Pagcerto",
+                        principalTable: "AdvanceRequest",
+                        principalColumn: "AdvanceRequestId");
+                    table.ForeignKey(
+                        name: "FK_RequestSituations_Situations_SituationId",
+                        column: x => x.SituationId,
+                        principalSchema: "Pagcerto",
+                        principalTable: "Situations",
+                        principalColumn: "SituationId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Portions",
                 schema: "Pagcerto",
                 columns: table => new
@@ -140,6 +170,18 @@ namespace api.Migrations
                 column: "TransferId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequestSituations_AdvanceRequestId",
+                schema: "Pagcerto",
+                table: "RequestSituations",
+                column: "AdvanceRequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestSituations_SituationId",
+                schema: "Pagcerto",
+                table: "RequestSituations",
+                column: "SituationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transfer_AdvanceRequestId",
                 schema: "Pagcerto",
                 table: "Transfer",
@@ -157,11 +199,15 @@ namespace api.Migrations
                 schema: "Pagcerto");
 
             migrationBuilder.DropTable(
-                name: "Situations",
+                name: "RequestSituations",
                 schema: "Pagcerto");
 
             migrationBuilder.DropTable(
                 name: "Transfer",
+                schema: "Pagcerto");
+
+            migrationBuilder.DropTable(
+                name: "Situations",
                 schema: "Pagcerto");
 
             migrationBuilder.DropTable(

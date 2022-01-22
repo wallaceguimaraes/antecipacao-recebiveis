@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace api.Models.EntityModel.Mappings
 {
     public class PortionMap : IEntityTypeConfiguration<Portion>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Portion> builder)
+        public void Configure(EntityTypeBuilder<Portion> builder)
         {
             builder.ToTable("Portions");
 

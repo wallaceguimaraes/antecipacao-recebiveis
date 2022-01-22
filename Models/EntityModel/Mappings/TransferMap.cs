@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace api.Models.EntityModel.Mappings
 {
     public class TransferMap : IEntityTypeConfiguration<Transfer>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Transfer> builder)
+        public void Configure(EntityTypeBuilder<Transfer> builder)
         {
             builder.ToTable("Transfer");
 

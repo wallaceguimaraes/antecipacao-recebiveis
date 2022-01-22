@@ -33,16 +33,16 @@ namespace api.Migrations
                     b.Property<DateTime?>("AnalysisEndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("AnalysisResult")
+                    b.Property<int?>("AnalysisResult")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("AnticipatedValue")
+                    b.Property<decimal?>("AnticipatedValue")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("StartDateAnalysis")
+                    b.Property<DateTime?>("StartDateAnalysis")
                         .HasColumnType("datetime2");
 
                     b.HasKey("AdvanceRequestId");
@@ -83,6 +83,37 @@ namespace api.Migrations
                     b.HasIndex("TransferId");
 
                     b.ToTable("Portions");
+                });
+
+            modelBuilder.Entity("api.Models.EntityModel.RequestSituation", b =>
+                {
+                    b.Property<int>("RequestSituationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AdvanceRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SituationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("RequestSituationId");
+
+                    b.HasIndex("AdvanceRequestId");
+
+                    b.HasIndex("SituationId");
+
+                    b.ToTable("RequestSituations");
                 });
 
             modelBuilder.Entity("api.Models.EntityModel.RequestedAdvance", b =>
@@ -193,6 +224,25 @@ namespace api.Migrations
                     b.Navigation("Transfer");
                 });
 
+            modelBuilder.Entity("api.Models.EntityModel.RequestSituation", b =>
+                {
+                    b.HasOne("api.Models.EntityModel.AdvanceRequest", "AdvanceRequest")
+                        .WithMany("RequestedSituations")
+                        .HasForeignKey("AdvanceRequestId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.EntityModel.Situation", "Situation")
+                        .WithMany("RequestSituations")
+                        .HasForeignKey("SituationId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("AdvanceRequest");
+
+                    b.Navigation("Situation");
+                });
+
             modelBuilder.Entity("api.Models.EntityModel.Transfer", b =>
                 {
                     b.HasOne("api.Models.EntityModel.AdvanceRequest", null)
@@ -202,7 +252,14 @@ namespace api.Migrations
 
             modelBuilder.Entity("api.Models.EntityModel.AdvanceRequest", b =>
                 {
+                    b.Navigation("RequestedSituations");
+
                     b.Navigation("RequestedTransfers");
+                });
+
+            modelBuilder.Entity("api.Models.EntityModel.Situation", b =>
+                {
+                    b.Navigation("RequestSituations");
                 });
 
             modelBuilder.Entity("api.Models.EntityModel.Transfer", b =>

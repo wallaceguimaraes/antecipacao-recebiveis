@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace api.Models.EntityModel.Mappings
 {
     public class AdvanceRequestMap: IEntityTypeConfiguration<AdvanceRequest>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<AdvanceRequest> builder)
+        public void Configure(EntityTypeBuilder<AdvanceRequest> builder)
         {
             builder.ToTable("AdvanceRequest");
 

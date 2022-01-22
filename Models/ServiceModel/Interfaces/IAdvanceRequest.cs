@@ -9,8 +9,8 @@ namespace api.Models.ServiceModel.Interfaces
 {
     public interface IAdvanceRequest
     {
+        
         Task<IActionResult> ConsultAvailableTransactions();
         Task<IActionResult> AdvanceRequest(AdvanceRequestModel vModel);
-
     }
 }

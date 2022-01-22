@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace api.Models.EntityModel
 {
     public class Situation
@@ -10,5 +12,7 @@ namespace api.Models.EntityModel
 
         public int SituationId { get; set; }
         public string Description { get; set; }
+        public ICollection<RequestSituation> RequestSituations { get; set; }
+
     }
 }

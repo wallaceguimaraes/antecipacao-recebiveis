@@ -35,6 +35,9 @@ namespace api
             services.AddScoped<ITransfer, TransferService>();
             services.AddScoped<IPortion, PortionService>();
             services.AddScoped<IPayment, Payment>();
+            services.AddScoped<IRequestedAdvance, RequestedAdvanceService>();
+            services.AddScoped<IAdvanceRequest, AdvanceRequestService>();
+
 
             services.AddControllers().AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling =
                                             Newtonsoft.Json.ReferenceLoopHandling.Ignore);

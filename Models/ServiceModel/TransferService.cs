@@ -101,5 +101,21 @@ namespace api.Models.ServiceModel
                 throw new Exception(ex.Message);
             }
         }
+
+  /*         public async Task<IActionResult> GetNetValueByTransactionId(int id)
+        {
+            try
+            {
+                var transfer = _context.Transfers.WhereId(id);
+
+                if (transfer == null) return null;
+
+                return new TransferListJson(transfer);
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        } */
     }
 }

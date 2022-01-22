@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Infrastructure.Context;
+using api.Models.EntityModel;
 using api.Models.EntityModel.Queries;
 using api.Models.ResultModel;
 using api.Models.ServiceModel.Interfaces;
@@ -22,12 +23,16 @@ namespace api.Models.ServiceModel
 
         public async Task<IActionResult> getRequestedAdvance(int transferId)
         {
-            var requestedAdvances = _context.RequestedAdvances.searchByTransferId(transferId);
-            if (requestedAdvances == null) return null;
+            var requestedAdvances = _context.RequestedAdvances.searchByTransferId(transferId).FirstOrDefault();
+            if (requestedAdvances == null){
+                return null;
+            } 
 
-            return new RequestedAdvanceListJson(requestedAdvances);
+            var requested = _context.RequestedAdvances.searchByTransferId(transferId);
+
+            return new RequestedAdvanceListJson(requested);
         }
-
+ 
 
     }
 }
