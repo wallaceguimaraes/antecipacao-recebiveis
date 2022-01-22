@@ -91,3 +91,24 @@
 #
 #
 #
+# 5° Approve Or Disapprove
+# .../api/v2/advance-request/approve-disapprove
+
+# {
+#	"status": "disapprove",
+#	"advanceRequestId": 1,
+#	"transfers" : [
+#		{
+#		"transferId": 1,
+#		"disapprovalDate": null,
+#		"early": false,
+#		"confirmationAcquirer": "APROVADA",
+#		"grossTransferAmount": 7890.0,
+#		"transferNetAmount": 7889.10,
+#		"fixedRate": 0.90,
+#		"installmentAmount": 2,
+#		"cardDigits": "7768",
+#		"portions": null
+#		}
+#	]
+# }
