@@ -39,7 +39,9 @@ namespace api.Models.ServiceModel
         {
              RequestSituation requestSituation = _context.RequestSituations.Where(requestSituation => requestSituation.AdvanceRequestId == advanceRequestId 
                                                 && requestSituation.EndDate == null && requestSituation.SituationId == 1).FirstOrDefault();
-
+            
+            if(requestSituation == null) return null;
+            //UNDER ANALYSIS
             requestSituation.SituationId = 2;
 
             _context.Update(requestSituation);

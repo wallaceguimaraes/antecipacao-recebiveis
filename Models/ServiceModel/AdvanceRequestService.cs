@@ -132,6 +132,7 @@ namespace api.Models.ServiceModel
       2° Endpoint -> Solicitar antecipação a partir de uma lista de transações ( Passar no corpo da requisição uma lista de transacoes ID);
 
       3° Endpoint -> Iniciar o atendimento da antecipação;
+
       4° Endpoint -> Aprovar ou reprovar uma ou mais transações da antecipação (quando todas as transações forem finalizadas, 
       a antecipação será finalizada);
       5° Endpoint -> Consultar histórico de antecipações com filtro por status (pendente, em análise, finalizada).
@@ -157,6 +158,18 @@ namespace api.Models.ServiceModel
         {
 
                var requestSituation = await _requestSituationService.StartRequestService(vModel.AdvanceRequest.AdvanceRequestId);
+
+                if(requestSituation == null){
+
+                    return null;
+                }
+
+                AdvanceRequest advanceRequest =_context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault();
+
+                advanceRequest.StartDateAnalysis = DateTime.Now;
+
+                _context.Update(advanceRequest);
+                await _context.SaveChangesAsync();
 
                return requestSituation;
         }

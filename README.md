@@ -69,13 +69,25 @@
 #
 # ...api/v2/advance-request/consult-available-transactions
 #
+# 5° Start request fulfillment from a selected advance request
+#
+#  ...api/v2/advance-request/start-request-service
 #
 #
+# 
+# {
+#	"advanceRequest": {
+#							"advanceRequestId": 1,
+#							"requestDate": "2022-01-22T10:23:54.7025959-03:00",
+#							"startDateAnalysis": null,
+#							"analysisEndDate": null,
+#							"analysisResult": null,
+#							"amountRequestedAdvance": 7889.10,
+#							"anticipatedValue": null,
+#							"requestedAdvances": null
 #
-#
-#
-#
-#
+#	}
+# }
 #
 #
 #

@@ -10,5 +10,10 @@ namespace api.Models.EntityModel.Queries
         {
             return requests.Where(request => request.AdvanceRequestId == transferId);
         }
+
+         public static IQueryable<AdvanceRequest> WhereId(this IQueryable<AdvanceRequest> requests, int? id)
+        {
+            return requests.Where(request => request.AdvanceRequestId == id);
+        }
     }
 }
