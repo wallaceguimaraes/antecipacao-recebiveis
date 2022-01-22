@@ -21,13 +21,11 @@ namespace api.Models.EntityModel.Queries
 
         public static IQueryable<Transfer> searchByAvailableTransfers(this IQueryable<Transfer> transfers, List<int> transferIds)
         {
-           // persons.Where(p => p.Locations.Any(l => searchIds.Contains(l.Id)));
+            // persons.Where(p => p.Locations.Any(l => searchIds.Contains(l.Id)));
             return transfers.Where(x => !transferIds.Contains(x.TransferId)).AsNoTracking();
         }
 
 
-
-
-}
+    }
 
 }

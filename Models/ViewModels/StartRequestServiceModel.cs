@@ -7,10 +7,10 @@ using api.Models.EntityModel;
 
 namespace api.Models.ViewModels
 {
-    public sealed class AdvanceRequestModel
+    public sealed class StartRequestServiceModel
     {
-        [Display(Name ="transfers")]
+        [Display(Name ="advanceRequest")]
         [Required]
-        public ICollection<Transfer> Transfers { get; set; }
+        public AdvanceRequest AdvanceRequest { get; set; }
     }
 }

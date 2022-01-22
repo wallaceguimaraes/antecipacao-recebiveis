@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Models.EntityModel;
 using api.Models.ServiceModel.Interfaces;
 using api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -22,16 +23,23 @@ namespace api.Controllers
 
         [HttpPost]
         [Route("request")]
-        public  async Task<IActionResult> AdvanceRequest(AdvanceRequestModel vModel)
+        public async Task<IActionResult> AdvanceRequest(AdvanceRequestModel vModel)
         {
-           return await _advanceRequestService.AdvanceRequest(vModel);
+            return await _advanceRequestService.AdvanceRequest(vModel);
         }
 
         [HttpGet]
         [Route("consult-available-transactions")]
-        public  async Task<IActionResult> ConsultAvailableTransactions()
+        public async Task<IActionResult> ConsultAvailableTransactions()
         {
-           return await _advanceRequestService.ConsultAvailableTransactions();
+            return await _advanceRequestService.ConsultAvailableTransactions();
+        }
+
+        [HttpPut]
+        [Route("start-request-service")]
+        public async Task<RequestSituation> StartRequestService(StartRequestServiceModel vModel)
+        {
+            return await _advanceRequestService.StartRequestService(vModel);
         }
 
     }

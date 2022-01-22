@@ -65,7 +65,9 @@
 #		
 # }		
 #
+# 4° Consult available transactions
 #
+# ...api/v2/advance-request/consult-available-transactions
 #
 #
 #

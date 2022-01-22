@@ -20,18 +20,18 @@ namespace api.Models.ServiceModel
         private readonly IPortion _portionService;
         private readonly IRequestedAdvance _requestedAdvanceService;
         private readonly ITransfer _transferService;
-        private readonly IRequestSituation _requestSituation;
+        private readonly IRequestSituation _requestSituationService;
 
         public AdvanceRequestService(DataContext context, IPortion portionService,
                                     IRequestedAdvance requestedAdvanceService,
                                     ITransfer transferService,
-                                    IRequestSituation requestSituation)
+                                    IRequestSituation requestSituationService)
         {
             _context = context;
             _portionService = portionService;
             _requestedAdvanceService = requestedAdvanceService;
             _transferService = transferService;
-            _requestSituation = requestSituation;
+            _requestSituationService = requestSituationService;
 
         }
 
@@ -86,7 +86,7 @@ namespace api.Models.ServiceModel
             await _requestedAdvanceService.SaveRequestedTransaction(advanceRequest, vModel);
 
             //SItuationId => 1 PENDENTE
-            await _requestSituation.SaveSituation(advanceRequest.AdvanceRequestId, 1);
+            await _requestSituationService.SaveSituation(advanceRequest.AdvanceRequestId, 1);
 
             return new AdvanceRequestJson(advanceRequest);
 
@@ -104,10 +104,9 @@ namespace api.Models.ServiceModel
       5° - O trâmite de uma solicitação de antecipação progride através das seguintes etapas:
 
       Aguardando análise (PENDENTE): O lojista solicitou antecipação, mas ainda não foi INICIADO a análise pela equipe 
-      financeira da Pagcerto;
+      financeira da Pagcerto;  V
 
-      EM ANÁLISE: A equipe financeira iniciou a análise da antecipação, podendo aprovar ou reprovar UMA ou MAIS 
-      TRANSAÇÕES contidas na SOLICITAÇÃO;
+     
 
       FINALIZADA: Quando a análise da solicitação é encerrada, a antecipação pode assumir um dos seguintes resultados: 
       aprovada (todas as transações aprovadas), 
@@ -131,12 +130,18 @@ namespace api.Models.ServiceModel
 
       1° Endpoint -> Consultar transações disponíveis para solicitar antecipação (não é necessário filtros);
       2° Endpoint -> Solicitar antecipação a partir de uma lista de transações ( Passar no corpo da requisição uma lista de transacoes ID);
+
       3° Endpoint -> Iniciar o atendimento da antecipação;
       4° Endpoint -> Aprovar ou reprovar uma ou mais transações da antecipação (quando todas as transações forem finalizadas, 
       a antecipação será finalizada);
       5° Endpoint -> Consultar histórico de antecipações com filtro por status (pendente, em análise, finalizada).
 
       */
+/*
+ EM ANÁLISE: A equipe financeira iniciou a análise da antecipação, podendo aprovar ou reprovar UMA ou MAIS 
+      TRANSAÇÕES contidas na SOLICITAÇÃO;
+*/
+        
 
 
         public async Task<IActionResult> ConsultAvailableTransactions()
@@ -148,5 +153,12 @@ namespace api.Models.ServiceModel
             return list;
         }
 
+        public async Task<RequestSituation> StartRequestService(StartRequestServiceModel vModel)
+        {
+
+               var requestSituation = await _requestSituationService.StartRequestService(vModel.AdvanceRequest.AdvanceRequestId);
+
+               return requestSituation;
+        }
     }
 }
