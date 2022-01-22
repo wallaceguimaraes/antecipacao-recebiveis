@@ -13,5 +13,7 @@ namespace api.Models.EntityModel.Queries
         {
             return transfers.OrderBy(transfer => transfer.TransferId).Where(transfer => transfer.TransferId == id).Include(transfer => transfer.Portions);
         }
+
+    
     }
 }

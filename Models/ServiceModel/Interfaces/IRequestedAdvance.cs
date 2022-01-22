@@ -12,6 +12,7 @@ namespace api.Models.ServiceModel.Interfaces
     {
         Task<IActionResult> getRequestedAdvance(int transferId);
         Task<IActionResult> SaveRequestedTransaction(AdvanceRequest advanceRequest, AdvanceRequestModel vModel);
+        Task<IActionResult> ConsultAvailableTransactions();
 
 
     }

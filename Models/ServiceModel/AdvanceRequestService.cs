@@ -23,7 +23,7 @@ namespace api.Models.ServiceModel
         private readonly IRequestSituation _requestSituation;
 
         public AdvanceRequestService(DataContext context, IPortion portionService,
-                                    IRequestedAdvance requestedAdvanceService, 
+                                    IRequestedAdvance requestedAdvanceService,
                                     ITransfer transferService,
                                     IRequestSituation requestSituation)
         {
@@ -83,10 +83,8 @@ namespace api.Models.ServiceModel
             _context.Add(advanceRequest);
 
             await _context.SaveChangesAsync();
-            await _requestedAdvanceService.SaveRequestedTransaction(advanceRequest, vModel);            
-           
-           
-           
+            await _requestedAdvanceService.SaveRequestedTransaction(advanceRequest, vModel);
+
             //SItuationId => 1 PENDENTE
             await _requestSituation.SaveSituation(advanceRequest.AdvanceRequestId, 1);
 
@@ -94,17 +92,13 @@ namespace api.Models.ServiceModel
 
         }
 
+        /*       public async Task<IActionResult> StartAnticipationService(AdvanceRequestModel vModel){
 
+
+              }
+       */
 
         /*
-
-
-
-      SALVAR NO BANCO
-
-
-
-
       FLUXO DO PROCESSO
 
       5° - O trâmite de uma solicitação de antecipação progride através das seguintes etapas:
@@ -147,22 +141,11 @@ namespace api.Models.ServiceModel
 
         public async Task<IActionResult> ConsultAvailableTransactions()
         {
+            //Verificar na tabela RequestedAdvance
 
-            //Verificar na nova tabela de transacoes solicitadas
-            try
-            {
-                var transfers = await _context.Transfers
-                                    .OrderById()
-                                    .ToListAsync();
+            var list = await _requestedAdvanceService.ConsultAvailableTransactions();
 
-                if (transfers == null) return null;
-
-                return new TransferListJson(transfers);
-            }
-            catch (System.Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return list;
         }
 
     }

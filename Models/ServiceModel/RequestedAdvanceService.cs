@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,6 +52,29 @@ namespace api.Models.ServiceModel
             var requested = _context.RequestedAdvances.searchByTransferId(transferId);
 
             return new RequestedAdvanceListJson(requested);
+        }
+
+        public async Task<IActionResult> ConsultAvailableTransactions()
+        {
+            //var count = _context.RequestedAdvances.searchByUnavailableTransfers().Count();
+            var Transfers = _context.RequestedAdvances.searchByUnavailableTransfers().ToList();
+            //int id = requestedAdvances.AdvanceRequestId;
+
+            if (Transfers != null)
+            {
+                List<int> transferIds = new List<int>();
+
+                foreach (var transfer in Transfers)
+                {
+                    transferIds.Add(transfer.TransferId);
+                }
+
+                var availableTransfers = _context.Transfers.searchByAvailableTransfers(transferIds);
+                return new TransferListJson(availableTransfers);
+
+            }
+
+            return null;
         }
 
 

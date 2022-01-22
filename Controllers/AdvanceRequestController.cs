@@ -26,5 +26,13 @@ namespace api.Controllers
         {
            return await _advanceRequestService.AdvanceRequest(vModel);
         }
+
+        [HttpGet]
+        [Route("consult-available-transactions")]
+        public  async Task<IActionResult> ConsultAvailableTransactions()
+        {
+           return await _advanceRequestService.ConsultAvailableTransactions();
+        }
+
     }
 }
