@@ -25,6 +25,11 @@ namespace api.Models.EntityModel.Queries
             return transfers.Where(x => !transferIds.Contains(x.TransferId)).AsNoTracking();
         }
 
+        public static IQueryable<RequestedAdvance> PickUpUnfinishedTransactions(this IQueryable<RequestedAdvance> requesteds, int? id)
+        {
+            return requesteds.Where(r => r.AdvanceRequestId == id).Include(b => b.Transfer.Early == null);
+
+        }
 
     }
 

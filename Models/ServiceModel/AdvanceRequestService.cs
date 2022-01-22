@@ -92,27 +92,40 @@ namespace api.Models.ServiceModel
 
         }
 
-        public Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
-        {
-            throw new NotImplementedException();
-        }
-
-        /*       public async Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
+               public async Task<IActionResult> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
               {
 
                   if(vModel.Status == "disapprove"){
 
-                  }
+                      foreach(var transfer in vModel.Transfers){
+
+                          await _transferService.DisapproveTransaction(transfer.TransferId);
+
+                      }
+
+
+                      Task<ICollection<RequestedAdvance>> requestedAdvances =_requestedAdvanceService.PickUpUnfinishedTransactions(vModel.AdvanceRequestId);
+
+
+                      if(requestedAdvances == null){
+                          return null;
+                      }  
+                      //var transfers =  _c.PickUpUnfinishedTransactions().ToList();
+
+                      //Verificar se todas as transacoes foram finalizadas
+                      /// <summary>
+                      ///  Canso nao,
+                      /// </summary>
+                      /// 
+                      /// CASO a analise seja finalzada, atualizar Advance Request campo Anailsys Result
+                      ///  Aprovado, AprovadoParcialmente, Reprovado
+  
+                  } 
 
 
                   return null;
-              } */
+              } 
 
-        /*       public async Task<IActionResult> StartAnticipationService(AdvanceRequestModel vModel){
-
-
-              }
-       */
 
         /*
       FLUXO DO PROCESSO
@@ -179,7 +192,7 @@ namespace api.Models.ServiceModel
                     return null;
                 }
 
-                AdvanceRequest advanceRequest =_context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault()
+                AdvanceRequest advanceRequest =_context.AdvanceRequests.WhereId(vModel.AdvanceRequest.AdvanceRequestId).FirstOrDefault();
                 advanceRequest.StartDateAnalysis = DateTime.Now;
                 _context.Update(advanceRequest);
                 await _context.SaveChangesAsync();

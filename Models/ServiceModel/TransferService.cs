@@ -102,20 +102,31 @@ namespace api.Models.ServiceModel
             }
         }
 
-  /*         public async Task<IActionResult> GetNetValueByTransactionId(int id)
+        public async Task<IActionResult> DisapproveTransaction(int transferId)
         {
+            //Pesquisar transacao
+            Transfer transfer = _context.Transfers.WhereId(transferId).FirstOrDefault();
+
+            transfer.Early = false;
+
             try
             {
-                var transfer = _context.Transfers.WhereId(id);
+                _context.Update(transfer);
 
-                if (transfer == null) return null;
+                await _context.SaveChangesAsync();
 
-                return new TransferListJson(transfer);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+
             }
-        } */
+            var transferJson = _context.Transfers.WhereId(transferId);
+
+            return new TransferJson(transfer);
+
+            //
+        }
+
     }
 }

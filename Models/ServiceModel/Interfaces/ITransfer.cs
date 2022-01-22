@@ -15,5 +15,7 @@ namespace api.Models.ServiceModel.Interfaces
     
         Task<IActionResult> ConsultTransaction(int id);
 
+        Task<IActionResult> DisapproveTransaction(int id);
+
     }
 }

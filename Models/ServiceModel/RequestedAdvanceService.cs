@@ -77,6 +77,12 @@ namespace api.Models.ServiceModel
             return null;
         }
 
+        public async Task<ICollection<RequestedAdvance>> PickUpUnfinishedTransactions(int advanceRequestId)
+        {
+           ICollection<RequestedAdvance>requestedAdvance = _context.RequestedAdvances.PickUpUnfinishedTransactions(advanceRequestId).ToList();
+
+            return requestedAdvance;
+        }
 
     }
 }

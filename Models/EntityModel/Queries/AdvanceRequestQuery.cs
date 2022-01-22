@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Models.EntityModel.Queries
 {
@@ -11,9 +12,11 @@ namespace api.Models.EntityModel.Queries
             return requests.Where(request => request.AdvanceRequestId == transferId);
         }
 
-         public static IQueryable<AdvanceRequest> WhereId(this IQueryable<AdvanceRequest> requests, int? id)
+        public static IQueryable<AdvanceRequest> WhereId(this IQueryable<AdvanceRequest> requests, int? id)
         {
             return requests.Where(request => request.AdvanceRequestId == id);
         }
+
+
     }
 }
