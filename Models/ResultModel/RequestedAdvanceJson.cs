@@ -15,16 +15,16 @@ namespace api.Models.ResultModel
         {
             RequestedAdvanceId = requestedAdvance.RequestedAdvanceId;
             TransferId = requestedAdvance.TransferId;
-           // Transfer = requestedAdvance.Transfer;
+            Transfer = requestedAdvance.Transfer;
             AdvanceRequestId = requestedAdvance.AdvanceRequestId;
-            //AdvanceRequest = requestedAdvance.AdvanceRequest;
+            AdvanceRequest = requestedAdvance.AdvanceRequest;
         }
 
         public int RequestedAdvanceId { get; set; }
         public int TransferId { get; set; }
-       //public Transfer Transfer { get; set; }
+        public Transfer Transfer { get; set; }
         public int AdvanceRequestId { get; set; }
-        //public Transfer AdvanceRequest { get; set; }
+        public AdvanceRequest AdvanceRequest { get; set; }
 
 
         public Task ExecuteResultAsync(ActionContext context)

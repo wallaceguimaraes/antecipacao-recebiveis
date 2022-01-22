@@ -10,7 +10,7 @@ using api.Infrastructure.Context;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220122040702_initial")]
+    [Migration("20220122132147_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,9 +100,6 @@ namespace api.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SituationId")
                         .HasColumnType("int");
 
@@ -132,6 +129,11 @@ namespace api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("RequestedAdvanceId");
+
+                    b.HasIndex("AdvanceRequestId");
+
+                    b.HasIndex("TransferId")
+                        .IsUnique();
 
                     b.ToTable("RequestedAdvance");
                 });
@@ -175,9 +177,6 @@ namespace api.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("AdvanceRequestId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("ApprovalDate")
                         .HasColumnType("datetime2");
 
@@ -210,8 +209,6 @@ namespace api.Migrations
 
                     b.HasKey("TransferId");
 
-                    b.HasIndex("AdvanceRequestId");
-
                     b.ToTable("Transfer");
                 });
 
@@ -231,13 +228,15 @@ namespace api.Migrations
                     b.HasOne("api.Models.EntityModel.AdvanceRequest", "AdvanceRequest")
                         .WithMany("RequestedSituations")
                         .HasForeignKey("AdvanceRequestId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_requested_situation__fk_advance_request")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("api.Models.EntityModel.Situation", "Situation")
                         .WithMany("RequestSituations")
                         .HasForeignKey("SituationId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("fk_requested_situation__fk_situation")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AdvanceRequest");
@@ -245,18 +244,30 @@ namespace api.Migrations
                     b.Navigation("Situation");
                 });
 
-            modelBuilder.Entity("api.Models.EntityModel.Transfer", b =>
+            modelBuilder.Entity("api.Models.EntityModel.RequestedAdvance", b =>
                 {
-                    b.HasOne("api.Models.EntityModel.AdvanceRequest", null)
-                        .WithMany("RequestedTransfers")
-                        .HasForeignKey("AdvanceRequestId");
+                    b.HasOne("api.Models.EntityModel.AdvanceRequest", "AdvanceRequest")
+                        .WithMany("RequestedAdvances")
+                        .HasForeignKey("AdvanceRequestId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.Models.EntityModel.Transfer", "Transfer")
+                        .WithOne("RequestedAdvance")
+                        .HasForeignKey("api.Models.EntityModel.RequestedAdvance", "TransferId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AdvanceRequest");
+
+                    b.Navigation("Transfer");
                 });
 
             modelBuilder.Entity("api.Models.EntityModel.AdvanceRequest", b =>
                 {
-                    b.Navigation("RequestedSituations");
+                    b.Navigation("RequestedAdvances");
 
-                    b.Navigation("RequestedTransfers");
+                    b.Navigation("RequestedSituations");
                 });
 
             modelBuilder.Entity("api.Models.EntityModel.Situation", b =>
@@ -267,6 +278,8 @@ namespace api.Migrations
             modelBuilder.Entity("api.Models.EntityModel.Transfer", b =>
                 {
                     b.Navigation("Portions");
+
+                    b.Navigation("RequestedAdvance");
                 });
 #pragma warning restore 612, 618
         }

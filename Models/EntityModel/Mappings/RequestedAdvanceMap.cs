@@ -15,6 +15,16 @@ namespace api.Models.EntityModel.Mappings
 
             builder.HasKey(a => a.RequestedAdvanceId);
 
+            builder.HasOne(a => a.Transfer)
+                            .WithOne(a => a.RequestedAdvance)
+                                    .IsRequired()
+                                    .OnDelete(DeleteBehavior.Cascade);
+
+                    builder.HasOne(a => a.AdvanceRequest)
+                   .WithMany(a => a.RequestedAdvances)
+                        .IsRequired()
+                        .OnDelete(DeleteBehavior.Cascade);
+                  
         }
     }
 }

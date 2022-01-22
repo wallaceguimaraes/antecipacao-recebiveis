@@ -14,7 +14,7 @@ namespace api.Models.EntityModel
         }
 
         public int RequestSituationId { get; set; }
-        public int RequestId { get; set; }
+        public int AdvanceRequestId { get; set; }
         public AdvanceRequest AdvanceRequest { get; set; }
         public int SituationId { get; set; }
         public Situation Situation { get; set; }

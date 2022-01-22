@@ -15,7 +15,6 @@ namespace api.Models.EntityModel.Mappings
 
             builder.HasKey(a => a.AdvanceRequestId);
 
-
             builder.Property(a => a.AmountRequestedAdvance)
                 .HasColumnType("decimal(18,2)");
 

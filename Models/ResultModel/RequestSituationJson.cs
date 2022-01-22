@@ -14,7 +14,7 @@ namespace api.Models.ResultModel
         public RequestSituationJson(RequestSituation requestSituation)
         {
             RequestSituationId = requestSituation.RequestSituationId;
-            RequestId = requestSituation.RequestId;
+            AdvanceRequestId = requestSituation.AdvanceRequestId;
             AdvanceRequest = requestSituation.AdvanceRequest;
             SituationId = requestSituation.SituationId;
             Situation = requestSituation.Situation;
@@ -23,7 +23,7 @@ namespace api.Models.ResultModel
 
         }
         public int RequestSituationId { get; set; }
-        public int RequestId { get; set; }
+        public int AdvanceRequestId { get; set; }
         public AdvanceRequest AdvanceRequest { get; set; }
         public int SituationId { get; set; }
         public Situation Situation { get; set; }

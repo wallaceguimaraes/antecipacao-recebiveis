@@ -22,11 +22,14 @@ namespace api.Models.ServiceModel
         public async Task<IActionResult> SaveSituation(int advanceRequestId, int situationId)
         {
             RequestSituation requestSituation = new RequestSituation();
-            requestSituation.RequestId = advanceRequestId;
+            requestSituation.AdvanceRequestId = advanceRequestId;
             requestSituation.SituationId = situationId;
             _context.Add(requestSituation);
-            await _context.SaveChangesAsync();
 
+  
+                await _context.SaveChangesAsync();
+
+    
             return null;
         }
 

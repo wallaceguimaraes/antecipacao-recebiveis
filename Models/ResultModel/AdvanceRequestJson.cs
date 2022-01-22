@@ -21,7 +21,8 @@ namespace api.Models.ResultModel
             AnalysisResult = advanceRequest.AnalysisResult;
             AmountRequestedAdvance = advanceRequest.AmountRequestedAdvance;
             AnticipatedValue = advanceRequest.AnticipatedValue;
-            RequestedTransfers = advanceRequest.RequestedTransfers;
+            RequestedAdvances = advanceRequest.RequestedAdvances;
+            RequestedSituations = advanceRequest.RequestedSituations;
         }
 
         public int AdvanceRequestId { get; set; }
@@ -31,7 +32,9 @@ namespace api.Models.ResultModel
         public AnalysisResult? AnalysisResult { get; set; }
         public decimal AmountRequestedAdvance { get; set; }
         public decimal? AnticipatedValue { get; set; }
-        public ICollection<Transfer> RequestedTransfers { get; set; }
+        public ICollection<RequestedAdvance> RequestedAdvances { get; set; }
+        public ICollection<RequestSituation> RequestedSituations { get; set; }
+
 
         public Task ExecuteResultAsync(ActionContext context)
         {

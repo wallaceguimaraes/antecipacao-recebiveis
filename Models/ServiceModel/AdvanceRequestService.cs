@@ -84,6 +84,9 @@ namespace api.Models.ServiceModel
 
             await _context.SaveChangesAsync();
             await _requestedAdvanceService.SaveRequestedTransaction(advanceRequest, vModel);            
+           
+           
+           
             //SItuationId => 1 PENDENTE
             await _requestSituation.SaveSituation(advanceRequest.AdvanceRequestId, 1);
 

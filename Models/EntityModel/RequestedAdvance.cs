@@ -9,9 +9,9 @@ namespace api.Models.EntityModel
     {
         public int RequestedAdvanceId { get; set; }
         public int TransferId { get; set; }
-        //public Transfer Transfer { get; set; }
+        public Transfer Transfer { get; set; }
         public int AdvanceRequestId { get; set; }
-       // public Transfer AdvanceRequest { get; set; }
+        public AdvanceRequest AdvanceRequest { get; set; }
 
     }
 }

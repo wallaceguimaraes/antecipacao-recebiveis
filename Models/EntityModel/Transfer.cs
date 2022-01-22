@@ -23,5 +23,7 @@ namespace api.Models.EntityModel
         public string CardDigits { get; set; }
         public ICollection<Portion> Portions { get; set; }
 
+        public RequestedAdvance RequestedAdvance { get; set; }
+
     }
 }

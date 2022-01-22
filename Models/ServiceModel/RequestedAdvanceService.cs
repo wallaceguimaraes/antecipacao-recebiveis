@@ -42,6 +42,7 @@ namespace api.Models.ServiceModel
         public async Task<IActionResult> getRequestedAdvance(int transferId)
         {
             var requestedAdvances = _context.RequestedAdvances.searchByTransferId(transferId).FirstOrDefault();
+            //int id = requestedAdvances.AdvanceRequestId;
             if (requestedAdvances == null)
             {
                 return null;

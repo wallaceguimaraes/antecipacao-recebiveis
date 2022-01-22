@@ -30,21 +30,6 @@ namespace api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RequestedAdvance",
-                schema: "Pagcerto",
-                columns: table => new
-                {
-                    RequestedAdvanceId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TransferId = table.Column<int>(type: "int", nullable: false),
-                    AdvanceRequestId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RequestedAdvance", x => x.RequestedAdvanceId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Situations",
                 schema: "Pagcerto",
                 columns: table => new
@@ -74,19 +59,11 @@ namespace api.Migrations
                     TransferNetAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     FixedRate = table.Column<decimal>(type: "decimal(5,2)", nullable: false),
                     InstallmentAmount = table.Column<int>(type: "int", nullable: false),
-                    CardDigits = table.Column<string>(type: "varchar(4)", nullable: true),
-                    AdvanceRequestId = table.Column<int>(type: "int", nullable: true)
+                    CardDigits = table.Column<string>(type: "varchar(4)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transfer", x => x.TransferId);
-                    table.ForeignKey(
-                        name: "FK_Transfer_AdvanceRequest_AdvanceRequestId",
-                        column: x => x.AdvanceRequestId,
-                        principalSchema: "Pagcerto",
-                        principalTable: "AdvanceRequest",
-                        principalColumn: "AdvanceRequestId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,7 +73,6 @@ namespace api.Migrations
                 {
                     RequestSituationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RequestId = table.Column<int>(type: "int", nullable: false),
                     AdvanceRequestId = table.Column<int>(type: "int", nullable: false),
                     SituationId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -106,17 +82,19 @@ namespace api.Migrations
                 {
                     table.PrimaryKey("PK_RequestSituations", x => x.RequestSituationId);
                     table.ForeignKey(
-                        name: "FK_RequestSituations_AdvanceRequest_AdvanceRequestId",
+                        name: "fk_requested_situation__fk_advance_request",
                         column: x => x.AdvanceRequestId,
                         principalSchema: "Pagcerto",
                         principalTable: "AdvanceRequest",
-                        principalColumn: "AdvanceRequestId");
+                        principalColumn: "AdvanceRequestId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RequestSituations_Situations_SituationId",
+                        name: "fk_requested_situation__fk_situation",
                         column: x => x.SituationId,
                         principalSchema: "Pagcerto",
                         principalTable: "Situations",
-                        principalColumn: "SituationId");
+                        principalColumn: "SituationId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -145,6 +123,35 @@ namespace api.Migrations
                         principalColumn: "TransferId");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RequestedAdvance",
+                schema: "Pagcerto",
+                columns: table => new
+                {
+                    RequestedAdvanceId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TransferId = table.Column<int>(type: "int", nullable: false),
+                    AdvanceRequestId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RequestedAdvance", x => x.RequestedAdvanceId);
+                    table.ForeignKey(
+                        name: "FK_RequestedAdvance_AdvanceRequest_AdvanceRequestId",
+                        column: x => x.AdvanceRequestId,
+                        principalSchema: "Pagcerto",
+                        principalTable: "AdvanceRequest",
+                        principalColumn: "AdvanceRequestId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RequestedAdvance_Transfer_TransferId",
+                        column: x => x.TransferId,
+                        principalSchema: "Pagcerto",
+                        principalTable: "Transfer",
+                        principalColumn: "TransferId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 schema: "Pagcerto",
                 table: "Situations",
@@ -170,6 +177,19 @@ namespace api.Migrations
                 column: "TransferId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RequestedAdvance_AdvanceRequestId",
+                schema: "Pagcerto",
+                table: "RequestedAdvance",
+                column: "AdvanceRequestId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RequestedAdvance_TransferId",
+                schema: "Pagcerto",
+                table: "RequestedAdvance",
+                column: "TransferId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RequestSituations_AdvanceRequestId",
                 schema: "Pagcerto",
                 table: "RequestSituations",
@@ -180,12 +200,6 @@ namespace api.Migrations
                 schema: "Pagcerto",
                 table: "RequestSituations",
                 column: "SituationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Transfer_AdvanceRequestId",
-                schema: "Pagcerto",
-                table: "Transfer",
-                column: "AdvanceRequestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -207,11 +221,11 @@ namespace api.Migrations
                 schema: "Pagcerto");
 
             migrationBuilder.DropTable(
-                name: "Situations",
+                name: "AdvanceRequest",
                 schema: "Pagcerto");
 
             migrationBuilder.DropTable(
-                name: "AdvanceRequest",
+                name: "Situations",
                 schema: "Pagcerto");
         }
     }

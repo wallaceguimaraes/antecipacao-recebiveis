@@ -16,18 +16,20 @@ namespace api.Models.EntityModel.Mappings
 
             builder.HasKey(a => a.RequestSituationId);
 
-            builder.HasKey(a => a.RequestSituationId);
-
             builder.HasOne(a => a.AdvanceRequest)
                    .WithMany(a => a.RequestedSituations)
-                   .IsRequired()
-                   .OnDelete(DeleteBehavior.NoAction);
-
+                   .HasForeignKey("AdvanceRequestId")
+                        .HasConstraintName("fk_requested_situation__fk_advance_request")
+                        .IsRequired()
+                        .OnDelete(DeleteBehavior.Cascade);
+                  
+            
             builder.HasOne(a => a.Situation)
                    .WithMany(a => a.RequestSituations)
-                   .IsRequired()
-                   .OnDelete(DeleteBehavior.NoAction);       
-
+                    .HasForeignKey("SituationId")
+                        .HasConstraintName("fk_requested_situation__fk_situation")
+                         .IsRequired()
+                        .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

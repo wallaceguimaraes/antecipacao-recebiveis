@@ -22,8 +22,9 @@ namespace api.Models.EntityModel
         public AnalysisResult? AnalysisResult { get; set; }
         public decimal AmountRequestedAdvance { get; set; }
         public decimal? AnticipatedValue { get; set; }
-        public ICollection<Transfer> RequestedTransfers { get; set; }
+        public ICollection<RequestedAdvance> RequestedAdvances { get; set; }
         public ICollection<RequestSituation> RequestedSituations { get; set; }
+
 
 
     }
