@@ -20,6 +20,36 @@ namespace api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("api.Models.EntityModel.AdvanceRequest", b =>
+                {
+                    b.Property<int>("AdvanceRequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<decimal>("AmountRequestedAdvance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("AnalysisEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("AnalysisResult")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("AnticipatedValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDateAnalysis")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("AdvanceRequestId");
+
+                    b.ToTable("AdvanceRequest");
+                });
+
             modelBuilder.Entity("api.Models.EntityModel.Portion", b =>
                 {
                     b.Property<int>("PortionId")
@@ -53,6 +83,24 @@ namespace api.Migrations
                     b.HasIndex("TransferId");
 
                     b.ToTable("Portions");
+                });
+
+            modelBuilder.Entity("api.Models.EntityModel.RequestedAdvance", b =>
+                {
+                    b.Property<int>("RequestedAdvanceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("AdvanceRequestId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TransferId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RequestedAdvanceId");
+
+                    b.ToTable("RequestedAdvance");
                 });
 
             modelBuilder.Entity("api.Models.EntityModel.Situation", b =>
@@ -94,6 +142,9 @@ namespace api.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int?>("AdvanceRequestId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("ApprovalDate")
                         .HasColumnType("datetime2");
 
@@ -126,6 +177,8 @@ namespace api.Migrations
 
                     b.HasKey("TransferId");
 
+                    b.HasIndex("AdvanceRequestId");
+
                     b.ToTable("Transfer");
                 });
 
@@ -138,6 +191,18 @@ namespace api.Migrations
                         .IsRequired();
 
                     b.Navigation("Transfer");
+                });
+
+            modelBuilder.Entity("api.Models.EntityModel.Transfer", b =>
+                {
+                    b.HasOne("api.Models.EntityModel.AdvanceRequest", null)
+                        .WithMany("RequestedTransfers")
+                        .HasForeignKey("AdvanceRequestId");
+                });
+
+            modelBuilder.Entity("api.Models.EntityModel.AdvanceRequest", b =>
+                {
+                    b.Navigation("RequestedTransfers");
                 });
 
             modelBuilder.Entity("api.Models.EntityModel.Transfer", b =>

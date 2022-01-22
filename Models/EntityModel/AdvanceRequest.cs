@@ -1,12 +1,14 @@
-using api.Models.EntityModel.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using api.Models.EntityModel.Enums;
 
-namespace api.Models.EntityModel.AdvanceRequest
+namespace api.Models.EntityModel
 {
     public class AdvanceRequest
     {
-        public AdvanceRequest()
+         public AdvanceRequest()
         {
             StartDateAnalysis = DateTime.Now;
             AnalysisEndDate = null;

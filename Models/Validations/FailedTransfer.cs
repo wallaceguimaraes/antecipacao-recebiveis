@@ -9,7 +9,7 @@ namespace api.Models.Validations
     {
         public FailedTransfer()
         {
-            ErrorMessage = "The transaction has been disapproved!";
+            Message = "The transaction has been disapproved!";
         }
         
         

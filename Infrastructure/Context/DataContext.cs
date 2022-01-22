@@ -12,7 +12,8 @@ namespace api.Infrastructure.Context
         public DbSet<Situation> Situations { get; set; }
         public DbSet<Transfer> Transfers { get; set; }
         public DbSet<Portion> Portions { get; set; }
-
+        public DbSet<AdvanceRequest> AdvanceRequests { get; set; }
+        public DbSet<RequestedAdvance> RequestedAdvances { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,7 +28,8 @@ namespace api.Infrastructure.Context
                         });
             modelBuilder.ApplyConfiguration(new TransferMap());
             modelBuilder.ApplyConfiguration(new PortionMap());
-
+            modelBuilder.ApplyConfiguration(new AdvanceRequestMap());
+            modelBuilder.ApplyConfiguration(new RequestedAdvanceMap());
         }
     }
 

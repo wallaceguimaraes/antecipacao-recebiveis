@@ -62,7 +62,7 @@ namespace api.Models.ServiceModel
             {
                 transfer.ConfirmationAcquirer = status;
                 transfer.ApprovalDate = DateTime.Now;
-                transfer.Early = true;
+                transfer.Early = false;
                 transfer.TransferNetAmount = transfer.GrossTransferAmount - transfer.FixedRate;
             }
 

@@ -2,11 +2,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Infrastructure.Context;
+using api.Models.EntityModel.Queries;
+using api.Models.ResultModel;
+using api.Models.ServiceModel.Interfaces;
+using api.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Models.ServiceModel
 {
-    public class AdvanceRequest
+    public class AdvanceRequestService
     {
+        private readonly DataContext _context;
+        private readonly IPortion _portionService;
+
+        private readonly IRequestedAdvance _requestedAdvance;
+
+        public AdvanceRequestService(DataContext context, IPortion portionService, IRequestedAdvance requestedAdvance)
+        {
+            _context = context;
+            _portionService = portionService;
+            _requestedAdvance = requestedAdvance;
+        }
+
         /*
         TABELA PORTION -> AnticipatedValue
         Valor antecipado (Esse campo só deve ser preenchido se a transação for aprovada pela análise 
@@ -26,18 +45,68 @@ namespace api.Models.ServiceModel
 
         CRITÉRIOS DE ACEITAÇÃO
 
-        1° - Não é permitido incluir em uma NOVA SOLICITAÇÃO DE ANTECIPAÇÃO de transações solicitadas anteriormente;
-        Para realização de uma nova solicitação de antecipação, é necessário que a solicitação atual já tenha sido FINALIZADA;
+        1° - Não é permitido incluir em uma NOVA SOLICITAÇÃO DE ANTECIPAÇÃO, transações solicitadas anteriormente;
+          
+            Para realização de uma nova solicitação de antecipação, é necessário que a solicitação atual já tenha sido FINALIZADA;
+
+            Verificar se alguma transacao ARRAY LIST ja foi incluida numa solicitacao de antecipacao, não permitindo uma nova solicitacao
+            Verificar 
+
+            
+        */
+
+
+        public async Task<IActionResult> AdvanceRequest(AdvanceRequestModel vModel)
+        {
+            //var list = null;
+
+            foreach (var transfer in vModel.Transfers)
+            {
+               var list = await _requestedAdvance.getRequestedAdvance(transfer.TransferId);
+
+            }
+
+
+
+            return await _requestedAdvance.getRequestedAdvance(2);
+
+        }
+
+
+        public async Task<IActionResult> ConsultAvailableTransactions()
+        {
+
+            //Verificar na nova tabela de transacoes solicitadas
+            try
+            {
+                var transfers = await _context.Transfers
+                                    .OrderById()
+                                    .ToListAsync();
+
+                if (transfers == null) return null;
+
+                return new TransferListJson(transfers);
+            }
+            catch (System.Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+
+        /*
 
         2° - A data de finalização da análise deve ser preenchida quando todas as transações da antecipação forem resolvidas 
         como aprovadas ou reprovadas;
 
         3° - Aplicar taxa de 3.8% em cada parcela de transação antecipada, considerando o valor líquido da parcela. Esse valor deve 
-        ser armazenado no campo "Valor antecipado" da parcela da transação em questão;
+        ser armazenado no campo "Valor antecipado" da parcela da transação em questão; flag Early  da transacao recebe TRUE
 
 
         4° - Caso a transação seja aprovada na antecipação, ao finalizar a solicitação, deve ter o campo "Data em que a parcela 
-        foi repassada", da entidade "Parcela", preenchida com a data atual.
+        foi repassada", da entidade "Parcela", preenchida com a data atual. Campo TransferDate (PORTION)
 
 
         FLUXO DO PROCESSO
@@ -58,7 +127,7 @@ namespace api.Models.ServiceModel
         ROTAS
 
         1° Endpoint -> Consultar transações disponíveis para solicitar antecipação (não é necessário filtros);
-        2° Endpoint -> Solicitar antecipação a partir de uma lista de transações;
+        2° Endpoint -> Solicitar antecipação a partir de uma lista de transações ( Passar no corpo da requisição uma lista de transacoes ID);
         3° Endpoint -> Iniciar o atendimento da antecipação;
         4° Endpoint -> Aprovar ou reprovar uma ou mais transações da antecipação (quando todas as transações forem finalizadas, 
         a antecipação será finalizada);

@@ -8,7 +8,7 @@ namespace api.Models
 {
     public class FailedTransaction : IActionResult
     {
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
 
         public async Task ExecuteResultAsync(ActionContext context)
         {
