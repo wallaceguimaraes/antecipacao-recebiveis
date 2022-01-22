@@ -20,7 +20,7 @@ namespace api.Migrations
                     RequestDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     StartDateAnalysis = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AnalysisEndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    AnalysisResult = table.Column<int>(type: "int", nullable: true),
+                    AnalysisResult = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AmountRequestedAdvance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     AnticipatedValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },

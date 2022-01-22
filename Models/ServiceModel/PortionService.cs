@@ -26,8 +26,6 @@ namespace api.Models.ServiceModel
             ICollection<Portion> portions = _context.Portions.GetByTransferId(transferId).ToList();
             
             foreach(var portion in portions){
-
-                 Portion portion1 = new Portion();
                  portion.TransferDate = DateTime.Now;
                 _context.Update(portion);
 

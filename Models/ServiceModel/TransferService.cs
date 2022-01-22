@@ -151,5 +151,18 @@ namespace api.Models.ServiceModel
             //
         }
 
+        public async Task<ICollection<Transfer>> PickUpUnfinishedTransactions(ApproveOrDisapproveModel vModel)
+        {
+            ICollection<Transfer> transactions = null;
+
+            foreach (var transfer in vModel.Transfers)
+            {
+                transactions =  _context.Transfers.WhereId(transfer.TransferId).ToList();
+                 
+                return transactions;
+            }
+        return transactions;
+        }
+
     }
 }

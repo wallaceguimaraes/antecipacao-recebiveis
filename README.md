@@ -91,7 +91,7 @@
 #
 #
 #
-# 5° Approve Or Disapprove
+# 6° Approve Or Disapprove
 # .../api/v2/advance-request/approve-disapprove
 
 # {

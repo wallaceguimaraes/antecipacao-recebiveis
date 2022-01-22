@@ -29,7 +29,7 @@ namespace api.Models.ResultModel
         public DateTime RequestDate { get; set; }
         public DateTime? StartDateAnalysis { get; set; }
         public DateTime? AnalysisEndDate { get; set; }
-        public AnalysisResult? AnalysisResult { get; set; }
+        public string? AnalysisResult { get; set; }
         public decimal AmountRequestedAdvance { get; set; }
         public decimal? AnticipatedValue { get; set; }
         public ICollection<RequestedAdvance> RequestedAdvances { get; set; }

@@ -10,7 +10,7 @@ using api.Infrastructure.Context;
 namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220122192406_initial")]
+    [Migration("20220122225444_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace api.Migrations
                     b.Property<DateTime?>("AnalysisEndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("AnalysisResult")
-                        .HasColumnType("int");
+                    b.Property<string>("AnalysisResult")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("AnticipatedValue")
                         .HasColumnType("decimal(18,2)");

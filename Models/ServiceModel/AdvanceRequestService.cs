@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Infrastructure.Context;
 using api.Models.EntityModel;
+using api.Models.EntityModel.Enums;
 using api.Models.EntityModel.Queries;
 using api.Models.ResultModel;
 using api.Models.ServiceModel.Interfaces;
@@ -21,6 +22,7 @@ namespace api.Models.ServiceModel
         private readonly IRequestedAdvance _requestedAdvanceService;
         private readonly ITransfer _transferService;
         private readonly IRequestSituation _requestSituationService;
+
 
         public AdvanceRequestService(DataContext context, IPortion portionService,
                                     IRequestedAdvance requestedAdvanceService,
@@ -94,16 +96,12 @@ namespace api.Models.ServiceModel
 
         public async Task<RequestedAdvance[]> ApproveOrDisapprove(ApproveOrDisapproveModel vModel)
         {
-
             if (vModel.Status == "disapprove")
             {
-
                 foreach (var transfer in vModel.Transfers)
                 {
                     await _transferService.DisapproveTransaction(transfer.TransferId);
                 }
-
-
             }
             else if (vModel.Status == "approve")
             {
@@ -112,47 +110,74 @@ namespace api.Models.ServiceModel
                     await _transferService.ApproveTransaction(transfer.TransferId);
                     await _portionService.UpdatePortion(transfer.TransferId, transfer.TransferNetAmount);
                 }
+            }
+            //Verificar se AdvanceRequest Teve todas suas transferencias finalizadas Early diferente de null
+            ICollection<Transfer> transaction = await _transferService.PickUpUnfinishedTransactions(vModel);
 
-                
+            bool approve = false;
+            bool disapprove = false;
+            bool endRequest = true;
 
+            foreach (var transf in transaction)
+            {
+                switch (transf.Early)
+                {
+                    case "N":
+                        disapprove = true;
+                        break;
+                    case "S":
+                        approve = true;
+                        break;
+                    case null:
+                        endRequest = false;
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+            AdvanceRequest advanceRequest = _context.AdvanceRequests.WhereId(vModel.AdvanceRequestId).FirstOrDefault();
+
+            if (approve == true && disapprove == false && endRequest == true)
+            {
+                advanceRequest.AnalysisResult = "APROVADA";
+
+                _context.Update(advanceRequest);
+                await _context.SaveChangesAsync();
+            }
+            else if (approve == false && disapprove == true && endRequest == true)
+            {
+                await _requestSituationService.SaveSituation(vModel.AdvanceRequestId, 3);
+                advanceRequest.AnalysisResult = "REPROVADA";
+            }
+            else if ((approve == true && disapprove == true && endRequest == true))
+            {
+                //NOT END REQUEST   
+                advanceRequest.AnalysisResult = "APROVADA PARCIALMENTE";
             }
 
-            //Verificar se AdvanceRequest Teve todas suas transferencias finalizadas Early diferente de null
-            
+            if (endRequest == true)
+            {
+                _context.Update(advanceRequest);
+                await _context.SaveChangesAsync();
 
+                await _requestSituationService.SaveSituation(vModel.AdvanceRequestId, 3);
+
+                foreach (var transfer in vModel.Transfers)
+                {
+                    await _portionService.EndDate(transfer.TransferId);
+                }
+            }
 
             return null;
         }
 
 
         /*
-      FLUXO DO PROCESSO
-     
 
-      FINALIZADA: Quando a análise da solicitação é encerrada, a antecipação pode assumir um dos seguintes resultados: 
-      aprovada (todas as transações aprovadas), 
-      aprovada parcialmente (quando existe ao menos uma transação aprovada e uma transação reprovada na análise) 
-      ou reprovada (todas as transações reprovadas).
-
-
-
-
-       2° - A data de finalização da análise deve ser preenchida quando todas as transações da antecipação forem resolvidas 
-      como aprovadas ou reprovadas;
-
-
-      3° - Aplicar taxa de 3.8% em cada parcela de transação antecipada, considerando o valor líquido da parcela. Esse valor deve 
-      ser armazenado no campo "Valor antecipado" da parcela da transação em questão; flag Early  da transacao recebe TRUE, AnticipatedValue
-
-      4° - Caso a transação seja aprovada na antecipação, ao finalizar a solicitação, deve ter o campo "Data em que a parcela 
-      foi repassada", da entidade "Parcela", preenchida com a data atual. Campo TransferDate (PORTION)
 
       ROTAS
 
-      1° Endpoint -> Consultar transações disponíveis para solicitar antecipação (não é necessário filtros);
-      2° Endpoint -> Solicitar antecipação a partir de uma lista de transações ( Passar no corpo da requisição uma lista de transacoes ID);
-
-      3° Endpoint -> Iniciar o atendimento da antecipação;
 
       4° Endpoint -> Aprovar ou reprovar uma ou mais transações da antecipação (quando todas as transações forem finalizadas, 
       a antecipação será finalizada);
@@ -168,8 +193,6 @@ namespace api.Models.ServiceModel
 
         public async Task<IActionResult> ConsultAvailableTransactions()
         {
-            //Verificar na tabela RequestedAdvance
-
             var list = await _requestedAdvanceService.ConsultAvailableTransactions();
 
             return list;
@@ -181,7 +204,6 @@ namespace api.Models.ServiceModel
 
             if (requestSituation == null)
             {
-
                 return null;
             }
 
@@ -192,7 +214,6 @@ namespace api.Models.ServiceModel
 
             return requestSituation;
         }
-
 
     }
 }

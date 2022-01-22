@@ -51,17 +51,6 @@ namespace api.Models.ServiceModel
             //3° - GERAR TRANSAÇÃO APROVADA E SUAS PARCELAS
             return await _transferService.SaveTransfer(vModel, "APROVADA");
 
-
-            /*
-            ROTAS A CRIAR
-
-            1° Endpoint ->  Efetuar pagamento com cartão de crédito (make-payment);
-            2° Endpoint -> Consultar uma transação e suas parcelas a partir do  (consult-transaction)
-            */
-
-
-
-
         }
 
     }

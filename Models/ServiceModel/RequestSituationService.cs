@@ -26,27 +26,35 @@ namespace api.Models.ServiceModel
             RequestSituation requestSituation = new RequestSituation();
             requestSituation.AdvanceRequestId = advanceRequestId;
             requestSituation.SituationId = situationId;
-            _context.Add(requestSituation);
 
-  
-                await _context.SaveChangesAsync();
+            if (situationId == 2)
+            {
+                _context.Add(requestSituation);
+            }
+            else
+            {   requestSituation.EndDate = DateTime.Now;
+                _context.Update(requestSituation);
 
-    
+            }
+            await _context.SaveChangesAsync();
+
+
             return null;
         }
 
-       public async Task<RequestSituation> StartRequestService(int advanceRequestId)
+
+        public async Task<RequestSituation> StartRequestService(int advanceRequestId)
         {
-             RequestSituation requestSituation = _context.RequestSituations.Where(requestSituation => requestSituation.AdvanceRequestId == advanceRequestId 
-                                                && requestSituation.EndDate == null && requestSituation.SituationId == 1).FirstOrDefault();
-            
-            if(requestSituation == null) return null;
+            RequestSituation requestSituation = _context.RequestSituations.Where(requestSituation => requestSituation.AdvanceRequestId == advanceRequestId
+                                               && requestSituation.EndDate == null && requestSituation.SituationId == 1).FirstOrDefault();
+
+            if (requestSituation == null) return null;
             //UNDER ANALYSIS
             requestSituation.SituationId = 2;
 
             _context.Update(requestSituation);
 
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return requestSituation;
         }

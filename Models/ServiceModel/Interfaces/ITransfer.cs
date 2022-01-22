@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Models.EntityModel;
 using api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,8 @@ namespace api.Models.ServiceModel.Interfaces
         Task<IActionResult> DisapproveTransaction(int id);
 
         Task<IActionResult> ApproveTransaction(int id);
+
+        Task<ICollection<Transfer>> PickUpUnfinishedTransactions(ApproveOrDisapproveModel vModel);
 
     }
 }
