@@ -1,6 +1,5 @@
-using System.ComponentModel.DataAnnotations;
-using api.Models.EntityModel;
 using api.Models.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace api.Models.ViewModels
 {

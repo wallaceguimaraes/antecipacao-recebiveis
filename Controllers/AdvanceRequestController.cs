@@ -1,8 +1,8 @@
-using System.Threading.Tasks;
 using api.Models.EntityModel;
 using api.Models.ServiceModel.Interfaces;
 using api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace api.Controllers
 {

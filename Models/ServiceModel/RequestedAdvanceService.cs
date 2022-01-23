@@ -1,15 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Infrastructure.Context;
 using api.Models.EntityModel;
 using api.Models.EntityModel.Queries;
 using api.Models.ResultModel;
 using api.Models.ServiceModel.Interfaces;
 using api.Models.ViewModels;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace api.Models.ServiceModel
 {
