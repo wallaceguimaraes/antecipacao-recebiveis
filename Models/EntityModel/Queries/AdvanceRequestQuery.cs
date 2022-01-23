@@ -17,6 +17,10 @@ namespace api.Models.EntityModel.Queries
             return requests.Where(request => request.AdvanceRequestId == id);
         }
 
+        public static IQueryable<AdvanceRequest> WhereIds(this IQueryable<AdvanceRequest> requests, List<int> ids)
+        {
+            return requests.Where(item => ids.Contains(item.AdvanceRequestId));
+        }
 
     }
 }

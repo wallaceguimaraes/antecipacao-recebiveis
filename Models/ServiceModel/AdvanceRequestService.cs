@@ -37,30 +37,6 @@ namespace api.Models.ServiceModel
 
         }
 
-        /*
-        TABELA PORTION -> AnticipatedValue
-        Valor antecipado (Esse campo só deve ser preenchido se a transação for aprovada pela análise 
-        do financeiro, na solicitação de antecipação);
-
-        Data em que a parcela foi repassada (Esse campo só deve ser preenchido se a transação for 
-        aprovada pela análise do financeiro, na solicitação de antecipação).
-
-
-
-        SOLICITAÇÕES DE ANTECIPAÇÃO SÃO DOCUMENTOS EMITIDOS PELO LOJISTA/VENDEDOR ATRAVÉS DO
-        NOSSO SERVIÇO DE REPASSE ANTECIPADO DE  VALORES. A antecipação de uma transação tem um 
-        CUSTO de 3.8% APLICADO em CADA PARCELA da TRANSAÇÃO, se APROVADA pela análise do financeiro, 
-        sendo automaticamente debitado no seu repasse. Considerando o exemplo da transação citado na 
-        fase 1, se cada parcela da transação tem valor líquido de 49,55, o valor antecipado da parcela 
-        seria obtido a partir desse valor líquido, debitado a taxa de 3.8%.
-
-        CRITÉRIOS DE ACEITAÇÃO
-          
-            OBS: Para realização de uma nova solicitação de antecipação, é necessário que a solicitação atual já tenha sido FINALIZADA;
-            
-        */
-
-
         public async Task<IActionResult> AdvanceRequest(AdvanceRequestModel vModel)
         {
             foreach (var transfer in vModel.Transfers)
@@ -173,23 +149,6 @@ namespace api.Models.ServiceModel
         }
 
 
-        /*
-
-
-      ROTAS
-
-
-      4° Endpoint -> Aprovar ou reprovar uma ou mais transações da antecipação (quando todas as transações forem finalizadas, 
-      a antecipação será finalizada);
-      5° Endpoint -> Consultar histórico de antecipações com filtro por status (pendente, em análise, finalizada).
-
-      */
-        /*
-         EM ANÁLISE: A equipe financeira iniciou a análise da antecipação, podendo aprovar ou reprovar UMA ou MAIS 
-              TRANSAÇÕES contidas na SOLICITAÇÃO;
-        */
-
-
 
         public async Task<IActionResult> ConsultAvailableTransactions()
         {
@@ -197,6 +156,13 @@ namespace api.Models.ServiceModel
 
             return list;
         }
+
+   
+         public async Task<IActionResult> ConsultHistory(HistoryAnticipationsModel vModel)
+        {
+            return await _requestSituationService.ConsultHistory(vModel.SituationId);
+        }
+
 
         public async Task<RequestSituation> StartRequestService(StartRequestServiceModel vModel)
         {
@@ -215,5 +181,6 @@ namespace api.Models.ServiceModel
             return requestSituation;
         }
 
+     
     }
 }

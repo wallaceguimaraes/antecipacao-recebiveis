@@ -3,10 +3,11 @@
 # Make the payment
 
 # 1° make-payment
-
+#
+# 
 # .../api/v2/payment/make-payment
 
-# JSON
+# PASS JSON
 
 # {
 #	"creditCard": "5989182273827768",
@@ -18,19 +19,22 @@
 # Consult the transaction by ID
 
 # 2° consult-transaction
-
+#
+# 
 # .../api/v2/transfer/consult-transaction/7
 
-
+#
 # List all transactions
-
+#
+# 
 # 3°../api/v2/transfer/list
 
 # Request anticipation from the previous list of transactions
-
-# .../ap1/v2//advance-request/request
-
-
+#
+# 
+# .../ap1/v2/advance-request/request
+#
+# PASS JSON
 # {
 #	"transfers": [
 #		{
@@ -69,11 +73,13 @@
 #
 # ...api/v2/advance-request/consult-available-transactions
 #
+#
+#
 # 5° Start request fulfillment from a selected advance request
 #
 #  ...api/v2/advance-request/start-request-service
 #
-#
+# PASS JSON
 # 
 # {
 #	"advanceRequest": {
@@ -93,7 +99,9 @@
 #
 # 6° Approve Or Disapprove
 # .../api/v2/advance-request/approve-disapprove
-
+#
+# PASS JSON
+#
 # {
 #	"status": "disapprove",
 #	"advanceRequestId": 1,
@@ -112,3 +120,14 @@
 #		}
 #	]
 # }
+
+# 7° Consult History By Situations
+#
+# .../api/v2/advance-request/consult-history
+#
+# PASS JSONs
+#
+# {
+#	"situationId": 1
+# } 
+#  

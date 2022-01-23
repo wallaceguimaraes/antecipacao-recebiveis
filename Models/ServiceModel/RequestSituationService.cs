@@ -21,6 +21,21 @@ namespace api.Models.ServiceModel
             _context = context;
         }
 
+        public async Task<IActionResult> ConsultHistory(int situationId)
+        {
+            ICollection<RequestSituation> situations = _context.RequestSituations.GetHistoryAdvanceRequest(situationId).ToList();
+
+            //List<AdvanceRequest> advanceRequests = null;
+            var advanceRequestIds = new List<int>{};
+            foreach (var situation in situations)
+            {
+             advanceRequestIds.Add(situation.AdvanceRequestId);
+            }
+            var list = _context.AdvanceRequests.WhereIds(advanceRequestIds);
+
+            return new AdvanceRequestLisJson(list);
+        }
+
         public async Task<IActionResult> SaveSituation(int advanceRequestId, int situationId)
         {
             RequestSituation requestSituation = new RequestSituation();
@@ -32,7 +47,8 @@ namespace api.Models.ServiceModel
                 _context.Add(requestSituation);
             }
             else
-            {   requestSituation.EndDate = DateTime.Now;
+            {
+                requestSituation.EndDate = DateTime.Now;
                 _context.Update(requestSituation);
 
             }

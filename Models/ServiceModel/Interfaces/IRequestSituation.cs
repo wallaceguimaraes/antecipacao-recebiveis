@@ -11,7 +11,7 @@ namespace api.Models.ServiceModel.Interfaces
     {
         Task<IActionResult> SaveSituation(int advanceRequestId, int situationId);
         Task<RequestSituation> StartRequestService(int advanceRequestId);
-
+        Task<IActionResult> ConsultHistory(int situationId);
 
     }
 }

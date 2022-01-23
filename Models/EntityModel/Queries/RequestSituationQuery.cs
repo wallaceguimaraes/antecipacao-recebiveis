@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Models.EntityModel.Queries
 {
@@ -13,6 +14,11 @@ namespace api.Models.EntityModel.Queries
                                                 && requestSituation.EndDate == null && requestSituation.SituationId == 1);
         }
 
+     public static IQueryable<RequestSituation> GetHistoryAdvanceRequest (this IQueryable<RequestSituation> requestedSituations, int? situationId)
+        {
+            return requestedSituations.Where(rs => rs.SituationId == situationId).Include(b => b.AdvanceRequest);
+
+        }
 
 
     }

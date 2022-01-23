@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using api.Models.EntityModel;
 using api.Models.ServiceModel.Interfaces;
 using api.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace api.Controllers
 {
@@ -49,6 +44,12 @@ namespace api.Controllers
             return await _advanceRequestService.ApproveOrDisapprove(vModel);
         }
 
+        [HttpPost]
+        [Route("consult-history")]
+        public async Task<IActionResult> ConsultHistory(HistoryAnticipationsModel vModel)
+        {
+            return await _advanceRequestService.ConsultHistory(vModel);
+        }
 
     }
 }
